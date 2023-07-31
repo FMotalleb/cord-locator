@@ -1,24 +1,26 @@
 package config
 
 import (
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config/core_configuration"
+	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config/globals"
 	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/provider"
 	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/rule"
 )
 
+// Config is configuration of the dns proxy
 type Config struct {
-	Global    core_configuration.CoreConfiguration `yaml:"global"`
-	Providers []provider.Provider                  `yaml:"providers"`
-	Rules     []rule.Rule                          `yaml:"rules"`
+	Global    globals.CoreConfiguration `yaml:"global"`
+	providers []provider.Provider       `yaml:"providers"`
+	rules     []rule.Rule               `yaml:"rules"`
 }
 
+// Validate will check current configuration (rules/providers/...)
 func (config Config) Validate() bool {
-	for _, provider := range config.Providers {
+	for _, provider := range config.providers {
 		if !provider.Validate() {
 			panic("validation failed for providers")
 		}
 	}
-	for _, rule := range config.Rules {
+	for _, rule := range config.rules {
 		if !rule.Validate() {
 			panic("validation failed for rules")
 		}
@@ -26,16 +28,17 @@ func (config Config) Validate() bool {
 	if !config.Global.Validate() {
 		panic("validation failed for rules")
 	}
-	if config.GetDefaultProvider() == nil {
+	if config.getDefaultProvider() == nil {
 		panic("default provider was not found")
 	}
 	return true
 }
-func (config Config) GetDefaultProvider() *provider.Provider {
-	return config.FindProvider(config.Global.DefaultProvider)
+
+func (config Config) getDefaultProvider() *provider.Provider {
+	return config.findProvider(config.Global.DefaultProvider)
 }
-func (config Config) FindProvider(name string) *provider.Provider {
-	for _, p := range config.Providers {
+func (config Config) findProvider(name string) *provider.Provider {
+	for _, p := range config.providers {
 		if p.Name == name {
 			return &p
 		}
@@ -43,8 +46,8 @@ func (config Config) FindProvider(name string) *provider.Provider {
 	return nil
 }
 
-func (config Config) FindRuleFor(address string) *rule.Rule {
-	for _, r := range config.Rules {
+func (config Config) findRuleFor(address string) *rule.Rule {
+	for _, r := range config.rules {
 		if r.Match(address) {
 			return &r
 		}

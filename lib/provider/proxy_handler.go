@@ -1,15 +1,17 @@
 package provider
 
 import (
+	"math/rand"
 	"net"
 
 	"github.com/miekg/dns"
 	log "github.com/rs/zerolog/log"
 )
 
+// HandleRequest using this provider
 func (p *Provider) HandleRequest(w dns.ResponseWriter, req *dns.Msg) {
 	transport := "udp"
-	serverAddress := p.GetRandomIp()
+	serverAddress := p.getRandomIP()
 	if _, ok := w.RemoteAddr().(*net.TCPAddr); ok {
 		transport = "tcp"
 	}
@@ -50,4 +52,15 @@ func isTransfer(req *dns.Msg) bool {
 		}
 	}
 	return false
+}
+
+func (p *Provider) getRandomIP() string {
+	if len(p.IP) == 0 {
+		log.Fatal().Msgf("provider(%s) has no ip", p.Name)
+	}
+	addr := p.IP[0]
+	if n := len(p.IP); n > 1 {
+		addr = p.IP[rand.Intn(n)]
+	}
+	return addr
 }
