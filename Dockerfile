@@ -3,7 +3,8 @@ RUN mkdir /app
 COPY ./ /app
 WORKDIR /app
 RUN go build -o dns . 
-FROM alpine:latest
+
+FROM alpine:latest AS runtime
 COPY --from=builder /app/dns /usr/bin/
 RUN chmod +x /usr/bin/dns
 EXPOSE 53
@@ -16,4 +17,5 @@ ENV CONFIG_FILE "config.yaml"
 
 # watching is not supported in container
 ENV WATCH_CONFIG_FILE "false"
+
 ENTRYPOINT [ "dns" ]

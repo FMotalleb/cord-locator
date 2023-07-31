@@ -7,6 +7,7 @@ import (
 	log "github.com/rs/zerolog/log"
 )
 
+// Rule set of rules to find resolver of each request
 type Rule struct {
 	Name          *string  `yaml:"name"`
 	Matcher       string   `yaml:"matcher"`
@@ -18,6 +19,7 @@ func (r *Rule) String() string {
 	return fmt.Sprintf("rule(Name: %s,Matcher: %s,MatcherParams: %v,Resolver: %s)", *r.Name, r.Matcher, r.MatcherParams, r.Resolver)
 }
 
+// Match returns true if given address matches this rule
 func (r *Rule) Match(address string) bool {
 	switch r.Matcher {
 	case "regex":
@@ -33,6 +35,8 @@ func (r *Rule) Match(address string) bool {
 	}
 	return false
 }
+
+// Validate this rule is correctly configured
 func (r *Rule) Validate() bool {
 	switch r.Matcher {
 	case "regex":

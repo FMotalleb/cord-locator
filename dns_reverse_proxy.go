@@ -1,21 +1,9 @@
 /*
 Binary dns_reverse_proxy is a DNS reverse proxy to route queries to DNS servers.
-
 To illustrate, imagine an HTTP reverse proxy but for DNS.
 It listens on both TCP/UDP IPv4/IPv6 on specified port.
 Since the upstream servers will not see the real client IPs but the proxy,
 you can specify a list of IPs allowed to transfer (AXFR/IXFR).
-
-Example usage:
-
-	$ go run dns_reverse_proxy.go -address :53 -default 208.67.222.123:53 -route .ea.com.=178.22.122.100:53,185.51.200.2:53 -route .akamaihd.net.=178.22.122.100:53,185.51.200.2:53 -route ea.com.=178.22.122.100:53,185.51.200.2:53 -route tnt-ea.com.=178.22.122.100:53,185.51.200.2:53 -route .tnt-ea.com.=178.22.122.100:53,185.51.200.2:53 -route .origin.com.=178.22.122.100:53,185.51.200.2:53 -route origin.com.=178.22.122.100:53,185.51.200.2:53 -allow-transfer 1.2.3.4,::1
-
-'dns' '-address' ':53' '-default' '208.67.222.123:53' '-route' '.akamaihd.net.=178.22.122.100:53,185.51.200.2:53' '-route' '.ea.com.=178.22.122.100:53,185.51.200.2:53' '-route' 'ea.com.=178.22.122.100:53,185.51.200.2:53' '-route' 'tnt-ea.com.=178.22.122.100:53,185.51.200.2:53' '-route' '.tnt-ea.com.=178.22.122.100:53,185.51.200.2:53' '-route' '.origin.com.=178.22.122.100:53,185.51.200.2:53' '-route' 'origin.com.=178.22.122.100:53,185.51.200.2:53' '-allow-transfer' '1.2.3.4,::1'
--route blaze.ea.com=208.67.222.123:53 -route .blaze.ea.com=208.67.222.123:53
-A query for example.net or example.com will go to 8.8.8.8:53, the default.
-However, a query for subdomain.example.com will go to 8.8.4.4:53. -default
-is optional - if it is not given then the server will return a failure for
-queries for domains where a route has not been given.
 */
 package main
 
@@ -34,24 +22,16 @@ import (
 )
 
 var (
-	DnsConfig config.Config
+	//DNSConfig is the configuration data of the instance
+	DNSConfig config.Config
 )
 
-func resetDnsConfiguration(event fsnotify.Event) {
-	if event.Op == fsnotify.Write {
-		refreshConfig()
-		log.Info().Msg("Dns Config refreshed. Keep in mind that serving port will not change until you reset dns server")
-		dns.HandleRemove(".")
-		dns.HandleFunc(".", DnsConfig.Route)
-	}
-
-}
 func main() {
 	log.Info().Msg("Starting DNS Server")
-	address := DnsConfig.Global.Address
+	address := DNSConfig.Global.Address
 	udpServer := &dns.Server{Addr: address, Net: "udp"}
 	tcpServer := &dns.Server{Addr: address, Net: "tcp"}
-	dns.HandleFunc(".", DnsConfig.Route)
+	dns.HandleFunc(".", DNSConfig.Route)
 
 	go func() {
 		if err := udpServer.ListenAndServe(); err != nil {
@@ -119,7 +99,7 @@ func init() {
 	if boolVal {
 		log.Info().Msg("watching config file for changes")
 		viper.WatchConfig()
-		viper.OnConfigChange(resetDnsConfiguration)
+		viper.OnConfigChange(resetDNSConfiguration)
 	}
 
 }
@@ -128,8 +108,17 @@ func refreshConfig() {
 		log.Fatal().Msgf("%v", err)
 		return
 	}
-	viper.Unmarshal(&DnsConfig)
-	if !DnsConfig.Validate() {
+	viper.Unmarshal(&DNSConfig)
+	if !DNSConfig.Validate() {
 		panic("config validation failed")
+	}
+}
+
+func resetDNSConfiguration(event fsnotify.Event) {
+	if event.Op == fsnotify.Write {
+		refreshConfig()
+		log.Info().Msg("Dns Config refreshed. Keep in mind that serving port will not change until you reset dns server")
+		dns.HandleRemove(".")
+		dns.HandleFunc(".", DNSConfig.Route)
 	}
 }
