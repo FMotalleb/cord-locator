@@ -11,11 +11,11 @@ EXPOSE 53
 EXPOSE 53/udp
 RUN apk del apk-tools
 
-ENV LOG_LEVEL info
+# ENV LOG_LEVEL info
 # ENV LOG_FILE /dns.log
-ENV CONFIG_FILE "config.yaml"
+# ENV CONFIG_FILE "config.yaml"
 
 # watching is not supported in container
-ENV WATCH_CONFIG_FILE "false"
+# ENV WATCH_CONFIG_FILE "false"
 
 ENTRYPOINT [ "dns" ]
