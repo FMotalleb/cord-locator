@@ -31,33 +31,57 @@ rules:
   - name: Ea blaze (Direct)
     matcher: regex
     matcherParams:
-      - .*blaze\.ea\.com
+      - (.*\.)?blaze\.ea\.com
     resolver: opendns
+
   - name: Ea proxy
     matcher: regex
     matcherParams:
-      - .*\.ea\..*
-      - ea\..*
-      - .*\.origin\..*
-      - origin\..*
-      - .*\.tnt-ea\..*
-      - tnt-ea\..*
+      - (.*\.)?ea\..*
+      - (.*\.)?origin\..*
+      - (.*\.)?tnt-ea\..*
     resolver: shecan
+
+  - name: EasyAntiCheat proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?easyanticheat.net\..*
+    resolver: shecan
+
+  - name: golang proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?golang\..*
+      - (.*\.)?go-mpulse.net
+    resolver: shecan
+
+  - name: GlobalConfigs proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?googleapis\..*
+      - (.*\.)?maven\.googleapis\..*
+    resolver: "403"
+
   - name: Spotify proxy
     matcher: regex
     matcherParams:
-      - .*\.spotify\..*
-      - spotify\..*
-      - .*\.akamaihd\..*
-      - akamaihd\..*
-      - .*\.scdn\..*
-      - scdn\..*
-      - .*\.spotifycdn\..*
-      - spotifycdn\..*
+      - (.*\.)?spotify\..*
+      - (.*\.)?akamaihd\..*
+      - (.*\.)?scdn\..*
+      - (.*\.)?spotifycdn\..*
     resolver: shecan
+
   - name: Sentry proxy
     matcher: regex
     matcherParams:
-      - .*\.sentry\..*
-      - sentry\..*
+      - (.*\.)?sentry\..*
     resolver: shecan
+
+  - name: Flutter-Pub proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?flutter.*
+      - (.*\.)?dartlang.*
+      - (.*\.)?pub.dev.*
+    resolver: "403"
+
