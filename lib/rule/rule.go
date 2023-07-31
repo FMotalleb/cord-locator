@@ -28,7 +28,9 @@ func (r *Rule) Match(address string) bool {
 			if matcher != nil {
 				result := matcher.FindIndex([]byte(address))
 				if result != nil {
-					return result[0] == 0
+					if result[0] == 0 {
+						return true
+					}
 				}
 			}
 		}
