@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"regexp"
 
-	log "github.com/rs/zerolog/log"
+	"github.com/rs/zerolog/log"
 )
 
 // Rule set of rules to find resolver of each request

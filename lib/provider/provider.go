@@ -3,7 +3,7 @@ package provider
 import (
 	"net"
 
-	log "github.com/rs/zerolog/log"
+	"github.com/rs/zerolog/log"
 )
 
 // Provider is an external dns server (currently only supports ipv4)

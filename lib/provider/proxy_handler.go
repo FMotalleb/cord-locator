@@ -8,7 +8,7 @@ import (
 	"net"
 
 	"github.com/miekg/dns"
-	log "github.com/rs/zerolog/log"
+	"github.com/rs/zerolog/log"
 )
 
 // HandleRequest using this provider
@@ -20,18 +20,18 @@ func (p *Provider) HandleRequest(w dns.ResponseWriter, req *dns.Msg) {
 	}
 	if isTransfer(req) {
 		if transport != "tcp" {
-			dns.HandleFailed(w, req)
+			ResponseErrorToRequest(w, req)
 			return
 		}
 		t := new(dns.Transfer)
 		c, err := t.In(req, serverAddress)
 		if err != nil {
-			dns.HandleFailed(w, req)
+			ResponseErrorToRequest(w, req)
 			return
 		}
 		if err = t.Out(w, req, c); err != nil {
 			log.Debug().Msgf("failed to handle request: %v", err)
-			dns.HandleFailed(w, req)
+			ResponseErrorToRequest(w, req)
 			return
 		}
 		return
@@ -41,10 +41,13 @@ func (p *Provider) HandleRequest(w dns.ResponseWriter, req *dns.Msg) {
 	resp, _, err := c.Exchange(req, serverAddress)
 	if err != nil {
 		log.Debug().Msgf("failed to handle request: %v", err)
-		dns.HandleFailed(w, req)
+		ResponseErrorToRequest(w, req)
 		return
 	}
-	w.WriteMsg(resp)
+	err = w.WriteMsg(resp)
+	if err != nil {
+		log.Debug().Msgf("failed to write response: %v", err)
+	}
 }
 
 func isTransfer(req *dns.Msg) bool {
@@ -63,4 +66,10 @@ func (p *Provider) getRandomIP() string {
 		addr = p.IP[rand.Intn(n)]
 	}
 	return addr
+}
+
+func ResponseErrorToRequest(w dns.ResponseWriter, r *dns.Msg) {
+	m := new(dns.Msg)
+	m.SetRcode(r, dns.RcodeServerFailure)
+	_ = w.WriteMsg(m)
 }

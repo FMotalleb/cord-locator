@@ -13,7 +13,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/miekg/dns"
 	"github.com/rs/zerolog"
-	log "github.com/rs/zerolog/log"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 )
 
