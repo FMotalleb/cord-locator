@@ -19,14 +19,14 @@ func (c Config) Route(w dns.ResponseWriter, req *dns.Msg) {
 	log.Debug().Msgf("received request to find `%s`", lcName)
 	rule := c.findRuleFor(lcName)
 	if rule != nil {
-		log.Debug().Msgf("found rule for %s using provider: %s", lcName, rule.Resolver)
-		provider := c.findProvider(rule.Resolver)
+		log.Debug().Msgf("found rule for %s using provider: %v", lcName, rule.Resolver)
+		provider := c.findProvider(*rule.Resolver)
 		if provider != nil {
 			provider.HandleRequest(w, req)
 			return
 		}
-		log.Fatal().Msgf("requested provider was missing please add `%s` to providers in config file", rule.Resolver)
-
+		log.Debug().Msgf("requested provider was missing please add `%v` to providers in config file", rule.Resolver)
+		panic("default provider is missing")
 	}
 
 	provider := c.getDefaultProvider()

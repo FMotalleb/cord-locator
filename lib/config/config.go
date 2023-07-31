@@ -9,18 +9,18 @@ import (
 // Config is configuration of the dns proxy
 type Config struct {
 	Global    globals.CoreConfiguration `yaml:"global"`
-	providers []provider.Provider       `yaml:"providers"`
-	rules     []rule.Rule               `yaml:"rules"`
+	Providers []provider.Provider       `yaml:"providers"`
+	Rules     []rule.Rule               `yaml:"rules"`
 }
 
 // Validate will check current configuration (rules/providers/...)
 func (config Config) Validate() bool {
-	for _, provider := range config.providers {
+	for _, provider := range config.Providers {
 		if !provider.Validate() {
 			panic("validation failed for providers")
 		}
 	}
-	for _, rule := range config.rules {
+	for _, rule := range config.Rules {
 		if !rule.Validate() {
 			panic("validation failed for rules")
 		}
@@ -38,7 +38,7 @@ func (config Config) getDefaultProvider() *provider.Provider {
 	return config.findProvider(config.Global.DefaultProvider)
 }
 func (config Config) findProvider(name string) *provider.Provider {
-	for _, p := range config.providers {
+	for _, p := range config.Providers {
 		if p.Name == name {
 			return &p
 		}
@@ -47,7 +47,7 @@ func (config Config) findProvider(name string) *provider.Provider {
 }
 
 func (config Config) findRuleFor(address string) *rule.Rule {
-	for _, r := range config.rules {
+	for _, r := range config.Rules {
 		if r.Match(address) {
 			return &r
 		}

@@ -21,8 +21,8 @@ func (p *Provider) Validate() bool {
 	for _, ip := range p.IP {
 		host, port, err := net.SplitHostPort(ip)
 		if err != nil || host == "" || port == "" {
-			log.Fatal().Msgf("provider: %s has error with ip %s (maybe missing port number?)", p.Name, ip)
-			// return false
+			log.Debug().Msgf("provider: %s has error with ip %s (maybe missing port number?)", p.Name, ip)
+			return false
 		}
 	}
 	return true

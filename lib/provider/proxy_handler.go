@@ -55,9 +55,6 @@ func isTransfer(req *dns.Msg) bool {
 }
 
 func (p *Provider) getRandomIP() string {
-	if len(p.IP) == 0 {
-		log.Fatal().Msgf("provider(%s) has no ip", p.Name)
-	}
 	addr := p.IP[0]
 	if n := len(p.IP); n > 1 {
 		addr = p.IP[rand.Intn(n)]
