@@ -1,0 +1,63 @@
+global:
+  address: ":53"
+  allowTransfer:
+    - "1.2.3.4"
+    - "::1"
+  defaultProvider: opendns
+
+providers:
+  - name: cf
+    ip:
+      - 1.1.1.1:53
+      - 1.0.0.1:53
+  - name: google
+    ip:
+      - 8.8.8.8:53
+      - 4.2.2.4:53
+  - name: opendns
+    ip:
+      - 208.67.222.123:53
+      - 208.67.220.123:53
+  - name: shecan
+    ip:
+      - 178.22.122.100:53
+      - 185.51.200.2:53
+  - name: "403"
+    ip:
+      - 10.202.10.202:53
+      - 10.202.10.102:53
+
+rules:
+  - name: Ea blaze (Direct)
+    matcher: regex
+    matcherParams:
+      - .*blaze\.ea\.com
+    resolver: opendns
+  - name: Ea proxy
+    matcher: regex
+    matcherParams:
+      - .*\.ea\..*
+      - ea\..*
+      - .*\.origin\..*
+      - origin\..*
+      - .*\.tnt-ea\..*
+      - tnt-ea\..*
+    resolver: shecan
+  - name: Spotify proxy
+    matcher: regex
+    matcherParams:
+      - .*\.spotify\..*
+      - spotify\..*
+      - .*\.akamaihd\..*
+      - akamaihd\..*
+      - .*\.scdn\..*
+      - scdn\..*
+      - .*\.spotifycdn\..*
+      - spotifycdn\..*
+    resolver: shecan
+  - name: Sentry proxy
+    matcher: regex
+    matcherParams:
+      - .*\.sentry\..*
+      - sentry\..*
+    resolver: shecan
