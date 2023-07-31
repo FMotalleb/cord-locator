@@ -1,10 +1,6 @@
-/*
-Binary dns_reverse_proxy is a DNS reverse proxy to route queries to DNS servers.
-To illustrate, imagine an HTTP reverse proxy but for DNS.
-It listens on both TCP/UDP IPv4/IPv6 on specified port.
-Since the upstream servers will not see the real client IPs but the proxy,
-you can specify a list of IPs allowed to transfer (AXFR/IXFR).
-*/
+//go:build !test
+// +build !test
+
 package main
 
 import (
