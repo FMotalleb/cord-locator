@@ -85,3 +85,9 @@ rules:
       - (.*\.)?pub.dev.*
     resolver: "403"
 
+  - name: DartLang proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?dartlang.*
+    resolver: "shecan"
+
