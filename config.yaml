@@ -59,8 +59,13 @@ rules:
     matcher: regex
     matcherParams:
       - (.*\.)?googleapis\..*
-      - (.*\.)?maven\.googleapis\..*
-    resolver: "403"
+      - (.*\.)?googlehosted.com
+    resolver: "shecan"
+  - name: 403 fallback
+    matcher: regex                  
+    matcherParams:                  
+      - (.*)?\.403                      
+    resolver: "403"    
 
   - name: Spotify proxy
     matcher: regex
@@ -81,13 +86,11 @@ rules:
     matcher: regex
     matcherParams:
       - (.*\.)?flutter.*
-      - (.*\.)?dartlang.*
       - (.*\.)?pub.dev.*
-    resolver: "403"
+    resolver: "shecan"
 
   - name: DartLang proxy
     matcher: regex
     matcherParams:
       - (.*\.)?dartlang.*
     resolver: "shecan"
-

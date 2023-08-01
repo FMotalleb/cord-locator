@@ -1,5 +1,4 @@
 //go:build !test
-// +build !test
 
 package main
 
@@ -18,7 +17,7 @@ import (
 )
 
 var (
-	//DNSConfig is the configuration data of the instance
+	// DNSConfig is the configuration data of the instance
 	DNSConfig config.Config
 )
 
@@ -44,8 +43,8 @@ func main() {
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 	<-sigs
 
-	udpServer.Shutdown()
-	tcpServer.Shutdown()
+	_ = udpServer.Shutdown()
+	_ = tcpServer.Shutdown()
 }
 
 func init() {
@@ -85,7 +84,7 @@ func init() {
 	if err != nil {
 		log.Fatal().Msgf("config file does not found please set `CONFIG_FILE` environment, error: %v", err)
 	}
-	file.Close()
+	_ = file.Close()
 	log.Info().Msgf("reading from config file at: %s", configPath)
 	viper.SetConfigFile(configPath)
 
@@ -97,14 +96,16 @@ func init() {
 		viper.WatchConfig()
 		viper.OnConfigChange(resetDNSConfiguration)
 	}
-
 }
 func refreshConfig() {
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatal().Msgf("%v", err)
 		return
 	}
-	viper.Unmarshal(&DNSConfig)
+	err := viper.Unmarshal(&DNSConfig)
+	if err != nil {
+		log.Warn().Msgf("config changed but it has an error: %v", err)
+	}
 	if !DNSConfig.Validate() {
 		panic("config validation failed")
 	}
