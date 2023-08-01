@@ -68,6 +68,7 @@ func (p *Provider) getRandomIP() string {
 	return addr
 }
 
+// ResponseErrorToRequest will response a request with failed to handle
 func ResponseErrorToRequest(w dns.ResponseWriter, r *dns.Msg) {
 	m := new(dns.Msg)
 	m.SetRcode(r, dns.RcodeServerFailure)
