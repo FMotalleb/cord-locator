@@ -13,9 +13,9 @@ _test
 *.[568vq]
 [568vq].out
 
-
 *.exe
 *.test
 *.prof
 dns-reverse-proxy-docker
 *.log
+*.out
