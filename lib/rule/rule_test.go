@@ -114,3 +114,56 @@ func TestFailValidate(t *testing.T) {
 		t.Error("empty configuration should fail")
 	}
 }
+func TestValidateExactPass(t *testing.T) {
+	rgp := make([]string, 0)
+	rgp = append(rgp, "google.")
+	name := "test"
+	item := rule.Rule{
+		Matcher:       "exact",
+		MatcherParams: rgp,
+		Resolver:      &name,
+		Name:          &name,
+	}
+	if !item.Validate() {
+		t.Error("Item has valid params and configuration it must pass")
+	}
+}
+func TestValidateExactFail(t *testing.T) {
+	rgp := make([]string, 0)
+	name := "test"
+	item := rule.Rule{
+		Matcher:       "exact",
+		MatcherParams: rgp,
+		Resolver:      &name,
+		Name:          &name,
+	}
+	if item.Validate() {
+		t.Error("Item has valid params and configuration it must pass")
+	}
+}
+func TestExactMatcherPass(t *testing.T) {
+	rgp := make([]string, 0)
+	rgp = append(rgp, "google.com.")
+	name := "test"
+	item := rule.Rule{
+		Matcher:       "exact",
+		MatcherParams: rgp,
+		Resolver:      &name,
+	}
+	if !item.Match("google.com.") {
+		t.Error("matcher is working incorrectly, expected to match `google.com`")
+	}
+}
+func TestExactMatcherFail(t *testing.T) {
+	rgp := make([]string, 0)
+	rgp = append(rgp, "google.com.")
+	name := "test"
+	item := rule.Rule{
+		Matcher:       "exact",
+		MatcherParams: rgp,
+		Resolver:      &name,
+	}
+	if item.Match("google.com") {
+		t.Error("matcher is working incorrectly, expected to match `google.com`")
+	}
+}
