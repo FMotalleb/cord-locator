@@ -59,7 +59,6 @@ func (r *Rule) Match(address string) bool {
 	return false
 }
 
-// Validate this rule is correctly configured
 func (r *Rule) validateResolveMethod() bool {
 	if (r.Resolver == nil) && (r.Raw == nil) {
 		log.Debug().Msgf("no resolver or raw response found for rule: %s", r)
@@ -67,6 +66,8 @@ func (r *Rule) validateResolveMethod() bool {
 	}
 	return true
 }
+
+// Validate this rule is correctly configured
 func (r *Rule) Validate() bool {
 	switch r.Matcher {
 	case "regex":
