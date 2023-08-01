@@ -26,9 +26,12 @@ func (r *Rule) GetRaw(qType string) *string {
 	if r.Raw == nil {
 		return nil
 	}
-	rawMap := *r.Raw
-	item := rawMap[strings.ToLower(qType)]
-	return &item
+	for key, value := range *r.Raw {
+		if strings.ToLower(qType) == strings.ToLower(key) {
+			return &value
+		}
+	}
+	return nil
 }
 
 // Match returns true if given address matches this rule
