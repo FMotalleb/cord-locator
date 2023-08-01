@@ -138,7 +138,7 @@ func TestValidateExactFail(t *testing.T) {
 		Name:          &name,
 	}
 	if item.Validate() {
-		t.Error("Item has valid params and configuration it must pass")
+		t.Error("Item has invalid configuration it must fail")
 	}
 }
 func TestExactMatcherPass(t *testing.T) {
@@ -164,6 +164,64 @@ func TestExactMatcherFail(t *testing.T) {
 		Resolver:      &name,
 	}
 	if item.Match("google.com") {
-		t.Error("matcher is working incorrectly, expected to match `google.com`")
+		t.Error("matcher is working incorrectly, expected to fail matching `google.com`")
+	}
+}
+
+func TestRawGetCorrectItem(t *testing.T) {
+	rgp := make([]string, 0)
+	rgp = append(rgp, "google.com.")
+	rawMap := make(map[string]string, 0)
+	rawMap["A"] = "tester.com.	60	IN	A	1.2.3.4"
+	item := rule.Rule{
+		Matcher:       "exact",
+		MatcherParams: rgp,
+		// Resolver:      &name,
+		Raw: &rawMap,
+	}
+	if item.GetRaw("A") == nil {
+		t.Error("matcher is working incorrectly, expected to find A record")
+	}
+}
+func TestRawGetResolveItemEvenInCaseMismatch(t *testing.T) {
+	rgp := make([]string, 0)
+	rgp = append(rgp, "google.com.")
+	rawMap := make(map[string]string, 0)
+	rawMap["a"] = "tester.com.	60	IN	A	1.2.3.4"
+	item := rule.Rule{
+		Matcher:       "exact",
+		MatcherParams: rgp,
+		// Resolver:      &name,
+		Raw: &rawMap,
+	}
+	if item.GetRaw("AAAA") != nil {
+		t.Error("matcher is working incorrectly, expected to find A record(with case mismatch)")
+	}
+}
+func TestRawGetCannotResolveItemMissingRaw(t *testing.T) {
+	rgp := make([]string, 0)
+	rgp = append(rgp, "google.com.")
+	rawMap := make(map[string]string, 0)
+	rawMap["A"] = "tester.com.	60	IN	A	1.2.3.4"
+	item := rule.Rule{
+		Matcher:       "exact",
+		MatcherParams: rgp,
+		Raw:           &rawMap,
+	}
+	if item.GetRaw("AAAA") != nil {
+		t.Error("AAAA record was not set in raw map this test must fail")
+	}
+}
+func TestRawGetCannotResolveItemNoRaw(t *testing.T) {
+	rgp := make([]string, 0)
+	rgp = append(rgp, "google.com.")
+	name := "test"
+	item := rule.Rule{
+		Matcher:       "exact",
+		MatcherParams: rgp,
+		Resolver:      &name,
+	}
+	if item.GetRaw("A") != nil {
+		t.Error("no record was set for this rule this test must fail")
 	}
 }
