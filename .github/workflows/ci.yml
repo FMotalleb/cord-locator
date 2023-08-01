@@ -40,7 +40,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Quality Gate - Test coverage shall be above threshold
         env:
-          TESTCOVERAGE_THRESHOLD: 100
+          TESTCOVERAGE_THRESHOLD: ${{ vars.MIN_COVERAGE }}
         run: |
           echo "Quality Gate: checking test coverage is above threshold ..."
           echo "Threshold             : $TESTCOVERAGE_THRESHOLD %"
