@@ -3,13 +3,13 @@ module github.com/FMotalleb/dns-reverse-proxy-docker
 go 1.20
 
 require (
+	github.com/fsnotify/fsnotify v1.6.0
 	github.com/miekg/dns v1.1.50
 	github.com/rs/zerolog v1.29.1
 	github.com/spf13/viper v1.16.0
 )
 
 require (
-	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect

@@ -14,31 +14,31 @@ type Config struct {
 }
 
 // Validate will check current configuration (rules/providers/...)
-func (config Config) Validate() bool {
-	for _, provider := range config.Providers {
-		if !provider.Validate() {
+func (c *Config) Validate() bool {
+	for _, p := range c.Providers {
+		if !p.Validate() {
 			panic("validation failed for providers")
 		}
 	}
-	for _, rule := range config.Rules {
-		if !rule.Validate() {
+	for _, r := range c.Rules {
+		if !r.Validate() {
 			panic("validation failed for rules")
 		}
 	}
-	if !config.Global.Validate() {
+	if !c.Global.Validate() {
 		panic("validation failed for rules")
 	}
-	if config.getDefaultProvider() == nil {
+	if c.getDefaultProvider() == nil {
 		panic("default provider was not found")
 	}
 	return true
 }
 
-func (config Config) getDefaultProvider() *provider.Provider {
-	return config.findProvider(config.Global.DefaultProvider)
+func (c *Config) getDefaultProvider() *provider.Provider {
+	return c.findProvider(c.Global.DefaultProvider)
 }
-func (config Config) findProvider(name string) *provider.Provider {
-	for _, p := range config.Providers {
+func (c *Config) findProvider(name string) *provider.Provider {
+	for _, p := range c.Providers {
 		if p.Name == name {
 			return &p
 		}
@@ -46,8 +46,8 @@ func (config Config) findProvider(name string) *provider.Provider {
 	return nil
 }
 
-func (config Config) findRuleFor(address string) *rule.Rule {
-	for _, r := range config.Rules {
+func (c *Config) findRuleFor(address string) *rule.Rule {
+	for _, r := range c.Rules {
 		if r.Match(address) {
 			return &r
 		}
