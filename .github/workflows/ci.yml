@@ -34,7 +34,10 @@ jobs:
         run: |
           sudo go test -tags test ./... -coverprofile coverage.out -covermode count
           sudo go tool cover -func coverage.out
-
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Quality Gate - Test coverage shall be above threshold
         env:
           TESTCOVERAGE_THRESHOLD: 100
@@ -53,3 +56,4 @@ jobs:
 
       - name: Build
         run: go build -o dns
+
