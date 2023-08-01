@@ -34,6 +34,12 @@ func (r *Rule) Match(address string) bool {
 				}
 			}
 		}
+	case "exact":
+		for _, pattern := range r.MatcherParams {
+			if address == pattern {
+				return true
+			}
+		}
 	}
 	return false
 }
@@ -60,6 +66,12 @@ func (r *Rule) Validate() bool {
 		}
 		if r.Resolver == nil {
 			log.Debug().Msgf("resolver is empty in rule: %s", r)
+			return false
+		}
+		return true
+	case "exact":
+		if len(r.MatcherParams) == 0 {
+			log.Debug().Msgf("failed to validate rule:%s, received exact matcher with no params", r)
 			return false
 		}
 		return true
