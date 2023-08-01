@@ -3,20 +3,32 @@ package rule
 import (
 	"fmt"
 	"regexp"
+	"strings"
 
 	"github.com/rs/zerolog/log"
 )
 
 // Rule set of rules to find resolver of each request
 type Rule struct {
-	Name          *string  `yaml:"name"`
-	Matcher       string   `yaml:"matcher"`
-	MatcherParams []string `yaml:"matcherParams"`
-	Resolver      *string  `yaml:"resolver"`
+	Name          *string            `yaml:"name"`
+	Matcher       string             `yaml:"matcher"`
+	MatcherParams []string           `yaml:"matcherParams"`
+	Resolver      *string            `yaml:"resolver"`
+	Raw           *map[string]string `yaml:"raw"`
 }
 
 func (r *Rule) String() string {
 	return fmt.Sprintf("rule(Name: %v,Matcher: %s,MatcherParams: %v,Resolver: %v)", r.Name, r.Matcher, r.MatcherParams, r.Resolver)
+}
+
+// GetRaw will try to find raw response in the rule
+func (r *Rule) GetRaw(qType string) *string {
+	if r.Raw == nil {
+		return nil
+	}
+	rawMap := *r.Raw
+	item := rawMap[strings.ToLower(qType)]
+	return &item
 }
 
 // Match returns true if given address matches this rule
@@ -45,6 +57,13 @@ func (r *Rule) Match(address string) bool {
 }
 
 // Validate this rule is correctly configured
+func (r *Rule) validateResolveMethod() bool {
+	if (r.Resolver == nil) && (r.Raw == nil) {
+		log.Debug().Msgf("no resolver or raw response found for rule: %s", r)
+		return false
+	}
+	return true
+}
 func (r *Rule) Validate() bool {
 	switch r.Matcher {
 	case "regex":
@@ -64,17 +83,13 @@ func (r *Rule) Validate() bool {
 				log.Debug().Msgf("validation succeeded for an Unnamed Rule - regexp: `%s`", rule)
 			}
 		}
-		if r.Resolver == nil {
-			log.Debug().Msgf("resolver is empty in rule: %s", r)
-			return false
-		}
-		return true
+		return r.validateResolveMethod()
 	case "exact":
 		if len(r.MatcherParams) == 0 {
 			log.Debug().Msgf("failed to validate rule:%s, received exact matcher with no params", r)
 			return false
 		}
-		return true
+		return r.validateResolveMethod()
 	}
 	log.Debug().Msgf("failed to validate rule:%s", r)
 	return false

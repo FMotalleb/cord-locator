@@ -62,10 +62,10 @@ rules:
       - (.*\.)?googlehosted.com
     resolver: "shecan"
   - name: 403 fallback
-    matcher: regex                  
-    matcherParams:                  
-      - (.*)?\.403                      
-    resolver: "403"    
+    matcher: regex
+    matcherParams:
+      - (.*)?\.403
+    resolver: "403"
 
   - name: Spotify proxy
     matcher: regex
@@ -94,3 +94,11 @@ rules:
     matcherParams:
       - (.*\.)?dartlang.*
     resolver: "shecan"
+
+  - name: Raw proxy
+    matcher: exact
+    matcherParams:
+      - tester.com.
+    raw:
+      A: tester.com.	60	IN	A	1.2.3.4
+      AAAA: tester.com. 60 IN AAAA FFFF:FFFF:FFFF:FFFF::FFFF
