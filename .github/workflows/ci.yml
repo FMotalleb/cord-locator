@@ -19,8 +19,8 @@ jobs:
       - name: Setup GO environment
         run: |
           go mod download
-          go get -u golang.org/x/lint/golint
-          go get -t .
+          go install golang.org/x/lint/golint@latest
+          go get .
 
       - name: Lint
         run: |
