@@ -225,3 +225,18 @@ func TestRawGetCannotResolveItemNoRaw(t *testing.T) {
 		t.Error("no record was set for this rule this test must fail")
 	}
 }
+func TestValidateIsBlockedPass(t *testing.T) {
+	name := "test"
+
+	rgp := make([]string, 0)
+	rgp = append(rgp, "not-google")
+	item := rule.Rule{
+		Matcher:       "regex",
+		Name:          &name,
+		MatcherParams: rgp,
+		IsBlocked:     true,
+	}
+	if !item.Validate() {
+		t.Error("item has no regex parameter but has regex as matcher which is invalid and must fail")
+	}
+}
