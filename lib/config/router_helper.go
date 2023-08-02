@@ -22,6 +22,7 @@ func (c *Config) Route(w dns.ResponseWriter, req *dns.Msg) {
 	log.Debug().Msgf("received request to find `%s`", lcName)
 	rule := c.findRuleFor(lcName)
 	if rule != nil {
+		// TODO: fix printing resolver pointer
 		log.Debug().Msgf("found rule for %s using findProvider: %v", lcName, rule.Resolver)
 
 		raw := rule.GetRaw(dns.TypeToString[req.Question[0].Qtype])

@@ -58,7 +58,7 @@ func init() {
 		levelValue, err := zerolog.ParseLevel(logLevel)
 		if err == nil {
 			log.Info().Msgf("log level set to %s", levelValue)
-			log.Logger = log.Logger.Level(levelValue).With().Logger()
+			zerolog.SetGlobalLevel(levelValue)
 		}
 	}
 
