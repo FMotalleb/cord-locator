@@ -34,7 +34,15 @@ jobs:
         run: |
           sudo go test -tags test ./... -coverprofile coverage.out -covermode count
           sudo go tool cover -func coverage.out
+      - name: Check Codecov in pull request
+        if: github.event_name == 'pull_request'
+        with:
+          flags: 'no-update-pr-badge'
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload coverage reports to Codecov
+        if: github.event_name != 'pull_request'
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
