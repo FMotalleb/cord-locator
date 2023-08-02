@@ -5,9 +5,15 @@
 
 * [X] Raw-Response
 * [X] block request
-* [ ] dns provider fallback
+* [ ] update Flow
+    > instead of handling request and writing response in provider
+    > just handle request in provider dus making it testable
+* [ ] dns provider ip fallback instead of random
+* [ ] dns providers
 * [ ] fill `README.md`
 * [ ] rule grouping
 * [ ] dns grouping
-* [ ] DOT
-* [ ] DOH
+* [ ] DOT inward
+* [ ] DOT outward
+* [ ] DOH inward
+* [ ] DOH outward
