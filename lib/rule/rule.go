@@ -15,10 +15,11 @@ type Rule struct {
 	MatcherParams []string           `yaml:"matcherParams"`
 	Resolver      *string            `yaml:"resolver"`
 	Raw           *map[string]string `yaml:"raw"`
+	IsBlocked     bool               `yaml:"isBlocked,alias:blocked"`
 }
 
 func (r *Rule) String() string {
-	return fmt.Sprintf("rule(Name: %v,Matcher: %s,MatcherParams: %v,Resolver: %v)", r.Name, r.Matcher, r.MatcherParams, r.Resolver)
+	return fmt.Sprintf("rule(Name: %v,Matcher: %s,MatcherParams: %v,Resolver: %v,Raw: %v, IsBlocked: %v)", r.Name, r.Matcher, r.MatcherParams, r.Resolver, r.IsBlocked, r.IsBlocked)
 }
 
 // GetRaw will try to find raw response in the rule
@@ -60,15 +61,16 @@ func (r *Rule) Match(address string) bool {
 }
 
 func (r *Rule) validateResolveMethod() bool {
+	if r.IsBlocked {
+		return true
+	}
 	if (r.Resolver == nil) && (r.Raw == nil) {
 		log.Debug().Msgf("no resolver or raw response found for rule: %s", r)
 		return false
 	}
 	return true
 }
-
-// Validate this rule is correctly configured
-func (r *Rule) Validate() bool {
+func (r *Rule) validateMatcher() bool {
 	switch r.Matcher {
 	case "regex":
 		if len(r.MatcherParams) == 0 {
@@ -87,14 +89,19 @@ func (r *Rule) Validate() bool {
 				log.Debug().Msgf("validation succeeded for an Unnamed Rule - regexp: `%s`", rule)
 			}
 		}
-		return r.validateResolveMethod()
+		return true
 	case "exact":
 		if len(r.MatcherParams) == 0 {
 			log.Debug().Msgf("failed to validate rule:%s, received exact matcher with no params", r)
 			return false
 		}
-		return r.validateResolveMethod()
+		return true
 	}
 	log.Debug().Msgf("failed to validate rule:%s", r)
 	return false
+}
+
+// Validate this rule is correctly configured
+func (r *Rule) Validate() bool {
+	return r.validateMatcher() && r.validateResolveMethod()
 }

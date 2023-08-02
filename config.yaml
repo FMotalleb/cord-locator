@@ -110,6 +110,7 @@ rules:
     matcher: exact
     matcherParams:
       - raw.raw.
+    isBlocked: true
     raw:
       A: raw.raw.	60	IN	A	1.2.3.4
       AAAA: raw.raw. 60 IN AAAA FFFF:FFFF:FFFF:FFFF::FFFF
