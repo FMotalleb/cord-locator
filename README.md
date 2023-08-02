@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/FMotalleb/mockery/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/mockery)
 
 * [X] Raw-Response
-* [ ] block request
+* [X] block request
 * [ ] dns provider fallback
 * [ ] fill `README.md`
 * [ ] rule grouping
