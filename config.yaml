@@ -38,6 +38,19 @@ rules:
       - (.*\.)?blaze\.ea\.com
     resolver: opendns
 
+  - name: Ea Acc proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?accounts\.ea\.com.*
+    raw:
+      A: accounts.ea.com.	60	IN	A	50.7.87.85
+  - name: Ea Acc proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?signin\.ea.com\.*
+    raw:
+      A: signin.ea.com.	60	IN	A	50.7.87.85
+      
   - name: Ea proxy
     matcher: regex
     matcherParams:
@@ -45,13 +58,16 @@ rules:
       - (.*\.)?origin\..*
       - (.*\.)?tnt-ea\..*
       - (.*\.)?eac-cdn\..*
-    resolver: "radar-game"
+      - (.*\.)?eac-cdn\..*
+      - (.*\.)?azure\..*
+      - (.*\.)?footprintdns\..*
+    resolver: "shecan"
 
   - name: EasyAntiCheat proxy
     matcher: regex
     matcherParams:
       - (.*\.)?easyanticheat.net\..*
-    resolver: "radar-game"
+    resolver: "shecan"
 
   - name: golang proxy
     matcher: regex
@@ -63,7 +79,7 @@ rules:
     matcher: regex
     matcherParams:
       - (.*\.)amazonaws.com
-    resolver: "radar-game"
+    resolver: "shecan"
 
   - name: GlobalConfigs proxy
     matcher: regex
@@ -110,7 +126,6 @@ rules:
     matcher: exact
     matcherParams:
       - raw.raw.
-    isBlocked: true
     raw:
       A: raw.raw.	60	IN	A	1.2.3.4
       AAAA: raw.raw. 60 IN AAAA FFFF:FFFF:FFFF:FFFF::FFFF
