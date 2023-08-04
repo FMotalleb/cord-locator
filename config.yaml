@@ -42,15 +42,10 @@ rules:
     matcher: regex
     matcherParams:
       - (.*\.)?accounts\.ea\.com.*
-    raw:
-      A: accounts.ea.com.	60	IN	A	50.7.87.85
-  - name: Ea Acc proxy
-    matcher: regex
-    matcherParams:
       - (.*\.)?signin\.ea.com\.*
     raw:
-      A: signin.ea.com.	60	IN	A	50.7.87.85
-      
+      A: "{{ .address }}	60	IN	A	50.7.87.85"
+
   - name: Ea proxy
     matcher: regex
     matcherParams:
@@ -127,5 +122,5 @@ rules:
     matcherParams:
       - raw.raw.
     raw:
-      A: raw.raw.	60	IN	A	1.2.3.4
-      AAAA: raw.raw. 60 IN AAAA FFFF:FFFF:FFFF:FFFF::FFFF
+      A: "{{ .address }} 60	IN	A	1.2.3.4"
+      AAAA: "{{ .address }} 60 IN AAAA FFFF:FFFF:FFFF:FFFF::FFFF"
