@@ -9,6 +9,7 @@ import (
 	"syscall"
 
 	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config"
+	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/utils"
 	"github.com/fsnotify/fsnotify"
 	"github.com/miekg/dns"
 	"github.com/rs/zerolog"
@@ -26,7 +27,7 @@ func main() {
 	address := DNSConfig.Global.Address
 	udpServer := &dns.Server{Addr: address, Net: "udp"}
 	tcpServer := &dns.Server{Addr: address, Net: "tcp"}
-	dns.HandleFunc(".", DNSConfig.Route)
+	dns.HandleFunc(".", handle)
 
 	go func() {
 		if err := udpServer.ListenAndServe(); err != nil {
@@ -97,6 +98,9 @@ func init() {
 		viper.OnConfigChange(resetDNSConfiguration)
 	}
 }
+func handle(w dns.ResponseWriter, req *dns.Msg) {
+	utils.HandleRequest(DNSConfig, w, req)
+}
 func refreshConfig() {
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatal().Msgf("%v", err)
@@ -116,6 +120,6 @@ func resetDNSConfiguration(event fsnotify.Event) {
 		refreshConfig()
 		log.Info().Msg("Dns Config refreshed. Keep in mind that serving port will not change until you reset dns server")
 		dns.HandleRemove(".")
-		dns.HandleFunc(".", DNSConfig.Route)
+		dns.HandleFunc(".", handle)
 	}
 }
