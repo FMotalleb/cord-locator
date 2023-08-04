@@ -7,11 +7,11 @@
 
 * [X] Raw-Response
 * [X] block request
-* [ ] update Flow
+* [X] update Flow
     > instead of handling request and writing response in provider
     > just handle request in provider dus making it testable
-* [ ] dns provider ip fallback instead of random
-* [ ] dns providers
+    * [X] dns provider ip fallback instead of random
+* [ ] dns providers (for each rule)
 * [ ] fill `README.md`
 * [ ] rule grouping
 * [ ] dns grouping
