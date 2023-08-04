@@ -61,11 +61,11 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 }
 
 func responseErrorToRequest(w dns.ResponseWriter, r *dns.Msg) {
-	msg := MakeErrorMessage(r)
+	msg := makeErrorMessage(r)
 	_ = w.WriteMsg(msg)
 }
 
-func MakeErrorMessage(r *dns.Msg) *dns.Msg {
+func makeErrorMessage(r *dns.Msg) *dns.Msg {
 	m := new(dns.Msg)
 	m.SetRcode(r, dns.RcodeServerFailure)
 	return m
