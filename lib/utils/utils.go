@@ -1,3 +1,5 @@
+//go:build !test
+
 package utils
 
 import (
@@ -23,12 +25,12 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 	requestHostname := req.Question[0].Name
 	log.Debug().Msgf("received request to find `%s`", requestHostname)
 	r := c.FindRuleFor(requestHostname)
-	handler := provider.Provider{}
+	dnsProvider := provider.Provider{}
 	if r == nil {
-		handler = *c.GetDefaultProvider()
+		dnsProvider = *c.GetDefaultProvider()
 
 	} else if r.Resolver != nil {
-		handler = *c.FindProvider(*r.Resolver)
+		dnsProvider = *c.FindProvider(*r.Resolver)
 	} else if r.Raw != nil {
 		mapper := make(map[string]string, 0)
 		mapper["address"] = requestHostname
@@ -56,7 +58,7 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 	if _, ok := w.RemoteAddr().(*net.TCPAddr); ok {
 		transport = "tcp"
 	}
-	resp := handler.Handle(transport, req)
+	resp := dnsProvider.Handle(transport, req)
 	w.WriteMsg(resp)
 }
 
