@@ -1,7 +1,9 @@
-# DNS reverse proxy
+# Mockery
 
 [![ci](https://github.com/FMotalleb/mockery/actions/workflows/ci.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/FMotalleb/mockery/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/mockery)
+
+## Simple Rule based dns reverse proxy
 
 * [X] Raw-Response
 * [X] block request

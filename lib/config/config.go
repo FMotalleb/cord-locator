@@ -8,9 +8,10 @@ import (
 
 // Config is configuration of the dns proxy
 type Config struct {
-	Global    globals.CoreConfiguration `yaml:"global"`
-	Providers []provider.Provider       `yaml:"providers"`
-	Rules     []rule.Rule               `yaml:"rules"`
+	Global          globals.CoreConfiguration `yaml:"global"`
+	Providers       []provider.Provider       `yaml:"providers"`
+	Rules           []rule.Rule               `yaml:"rules"`
+	defaultProvider *provider.Provider
 }
 
 // Validate will check current configuration (rules/providers/...)
@@ -28,16 +29,22 @@ func (c *Config) Validate() bool {
 	if !c.Global.Validate() {
 		panic("validation failed for rules")
 	}
-	if c.getDefaultProvider() == nil {
+	if c.GetDefaultProvider() == nil {
 		panic("default provider was not found")
 	}
 	return true
 }
 
-func (c *Config) getDefaultProvider() *provider.Provider {
-	return c.findProvider(c.Global.DefaultProvider)
+// GetDefaultProvider set in global config
+func (c *Config) GetDefaultProvider() *provider.Provider {
+	if c.defaultProvider == nil {
+		c.defaultProvider = c.FindProvider(c.Global.DefaultProvider)
+	}
+	return c.defaultProvider
 }
-func (c *Config) findProvider(name string) *provider.Provider {
+
+// FindProvider with given name
+func (c *Config) FindProvider(name string) *provider.Provider {
 	for _, p := range c.Providers {
 		if p.Name == name {
 			return &p
@@ -46,11 +53,12 @@ func (c *Config) findProvider(name string) *provider.Provider {
 	return nil
 }
 
-func (c *Config) findRuleFor(address string) *rule.Rule {
+// FindRuleFor given address, this will only find first rule that matches given address
+func (c *Config) FindRuleFor(address string) *rule.Rule {
 	for _, r := range c.Rules {
 		if r.Match(address) {
 			return &r
 		}
 	}
-	return nil //, fmt.Errorf("no rule was found for address: `%s`", address)
+	return nil
 }
