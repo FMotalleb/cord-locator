@@ -47,7 +47,7 @@ func (c *Config) Route(w dns.ResponseWriter, req *dns.Msg) {
 		if rule.Resolver != nil {
 			findProvider := c.findProvider(*rule.Resolver)
 			if findProvider != nil {
-				findProvider.HandleRequest(w, req)
+				findProvider.Handle(w, req)
 				return
 			}
 			log.Debug().Msgf("requested findProvider was missing please add `%v` to providers in config file", rule.Resolver)
@@ -57,7 +57,7 @@ func (c *Config) Route(w dns.ResponseWriter, req *dns.Msg) {
 	}
 
 	p := c.getDefaultProvider()
-	p.HandleRequest(w, req)
+	p.Handle(w, req)
 }
 
 func isTransfer(req *dns.Msg) bool {

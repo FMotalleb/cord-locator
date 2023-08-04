@@ -11,8 +11,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// HandleRequest using this provider
-func (p *Provider) HandleRequest(w dns.ResponseWriter, req *dns.Msg) {
+// Handle using this provider
+func (p *Provider) Handle(w dns.ResponseWriter, req *dns.Msg) {
 	transport := "udp"
 	serverAddress := p.getRandomIP()
 	if _, ok := w.RemoteAddr().(*net.TCPAddr); ok {
