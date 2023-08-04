@@ -26,6 +26,10 @@ providers:
     ip:
       - 10.202.10.202:53
       - 10.202.10.102:53
+  - name: "radar-game"
+    ip:
+      - 10.202.10.11:53
+      - 10.202.10.10:53
 
 rules:
   - name: Ea blaze (Direct)
@@ -34,19 +38,36 @@ rules:
       - (.*\.)?blaze\.ea\.com
     resolver: opendns
 
+  - name: Ea Acc proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?accounts\.ea\.com.*
+    raw:
+      A: accounts.ea.com.	60	IN	A	50.7.87.85
+  - name: Ea Acc proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?signin\.ea.com\.*
+    raw:
+      A: signin.ea.com.	60	IN	A	50.7.87.85
+      
   - name: Ea proxy
     matcher: regex
     matcherParams:
       - (.*\.)?ea\..*
       - (.*\.)?origin\..*
       - (.*\.)?tnt-ea\..*
-    resolver: shecan
+      - (.*\.)?eac-cdn\..*
+      - (.*\.)?eac-cdn\..*
+      - (.*\.)?azure\..*
+      - (.*\.)?footprintdns\..*
+    resolver: "shecan"
 
   - name: EasyAntiCheat proxy
     matcher: regex
     matcherParams:
       - (.*\.)?easyanticheat.net\..*
-    resolver: shecan
+    resolver: "shecan"
 
   - name: golang proxy
     matcher: regex
@@ -54,18 +75,24 @@ rules:
       - (.*\.)?golang\..*
       - (.*\.)?go-mpulse.net
     resolver: shecan
+  - name: Amazon proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)amazonaws.com
+    resolver: "shecan"
 
   - name: GlobalConfigs proxy
     matcher: regex
     matcherParams:
       - (.*\.)?googleapis\..*
       - (.*\.)?googlehosted.com
+      - (.*\.)?bard.google.com
     resolver: "shecan"
   - name: 403 fallback
-    matcher: regex                  
-    matcherParams:                  
-      - (.*)?\.403                      
-    resolver: "403"    
+    matcher: regex
+    matcherParams:
+      - (.*)?\.403
+    resolver: "403"
 
   - name: Spotify proxy
     matcher: regex
@@ -94,3 +121,11 @@ rules:
     matcherParams:
       - (.*\.)?dartlang.*
     resolver: "shecan"
+
+  - name: Raw proxy
+    matcher: exact
+    matcherParams:
+      - raw.raw.
+    raw:
+      A: raw.raw.	60	IN	A	1.2.3.4
+      AAAA: raw.raw. 60 IN AAAA FFFF:FFFF:FFFF:FFFF::FFFF
