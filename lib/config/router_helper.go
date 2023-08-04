@@ -3,8 +3,10 @@
 package config
 
 import (
+	"bytes"
 	"net"
 	"strings"
+	"text/template"
 
 	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/provider"
 
@@ -31,7 +33,10 @@ func (c *Config) Route(w dns.ResponseWriter, req *dns.Msg) {
 
 		raw := rule.GetRaw(dns.TypeToString[req.Question[0].Qtype])
 		if raw != nil {
-			msg, err := dns.NewRR(*raw)
+			mapper := make(map[string]string, 0)
+			mapper["address"] = lcName
+			msg, err := dns.NewRR(formatString(*raw, mapper))
+
 			if err != nil {
 				log.Debug().Msgf("cannot parse raw response: %v", err)
 			}
@@ -83,4 +88,18 @@ func (c *Config) allowed(w dns.ResponseWriter, req *dns.Msg) bool {
 		}
 	}
 	return false
+}
+
+func formatString(text string, hashmap map[string]string) string {
+
+	tmpl, err := template.New("Mapper").Parse(text)
+	if err != nil {
+		panic(err)
+	}
+	writer := bytes.NewBuffer(nil)
+	err = tmpl.Execute(writer, hashmap)
+	if err != nil {
+		panic(err)
+	}
+	return writer.String()
 }
