@@ -10,12 +10,13 @@ import (
 
 // Rule set of rules to find resolver of each request
 type Rule struct {
-	Name          *string            `yaml:"name"`
-	Matcher       string             `yaml:"matcher"`
-	MatcherParams []string           `yaml:"matcherParams"`
-	Resolver      *string            `yaml:"resolver"`
-	Raw           *map[string]string `yaml:"raw"`
-	IsBlocked     bool               `yaml:"isBlocked,alias:blocked"`
+	Name           *string            `yaml:"name"`
+	Matcher        string             `yaml:"matcher"`
+	MatcherParams  []string           `yaml:"matcherParams"`
+	Resolver       *string            `yaml:"resolver"`
+	ResolverParams *string            `yaml:"resolverParams"`
+	Raw            *map[string]string `yaml:"raw"`
+	IsBlocked      bool               `yaml:"isBlocked,alias:blocked"`
 }
 
 func (r *Rule) String() string {
