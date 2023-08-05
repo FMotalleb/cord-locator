@@ -44,8 +44,10 @@ rules:
     matcherParams:
       - (.*\.)?accounts\.ea\.com.*
       - (.*\.)?signin\.ea.com\.*
-    raw:
-      A: "{{ .address }}	60	IN	A	50.7.87.85"
+    resolver: "shecan"
+    resolverParams: ea.com.
+#    raw:
+#      A: "{{ .address }}	60	IN	A	50.7.87.85"
 
   - name: Ea proxy
     matcher: regex
