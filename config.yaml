@@ -46,8 +46,8 @@ rules:
       - (.*\.)?signin\.ea.com\.*
     resolver: "shecan"
     resolverParams: ea.com.
-#    raw:
-#      A: "{{ .address }}	60	IN	A	50.7.87.85"
+  #    raw:
+  #      A: "{{ .address }}	60	IN	A	50.7.87.85"
 
   - name: Ea proxy
     matcher: regex
@@ -79,13 +79,21 @@ rules:
       - (.*\.)amazonaws.com
     resolver: "shecan"
 
+  - name: Bard proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?bard\.google\.com
+    resolver: "shecan"
+    resolverParams: ea.com.
+
   - name: GlobalConfigs proxy
     matcher: regex
     matcherParams:
       - (.*\.)?googleapis\..*
       - (.*\.)?googlehosted.com
-      - (.*\.)?bard.google.com
     resolver: "shecan"
+    resolverParams: ea.com.
+
   - name: 403 fallback
     matcher: regex
     matcherParams:

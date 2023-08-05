@@ -4,10 +4,11 @@ package utils
 
 import (
 	"bytes"
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/rule"
 	"html/template"
 	"net"
 	"strings"
+
+	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/rule"
 
 	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config"
 	"github.com/miekg/dns"
@@ -40,9 +41,12 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 		dnsProvider = *c.FindProvider(*r.Resolver)
 		log.Debug().Msgf("handler found for `%s`, will use %v, request: %v", requestHostname, dnsProvider, UnNil(r.ResolverParams, requestHostname))
 	case r.Raw != nil:
+
 		if handleRawResponse(requestHostname, r, req, w) {
+			log.Trace().Msgf("handled request for %s using raw response", requestHostname)
 			return
 		}
+		log.Trace().Msgf("cannot handle request for %s using raw response", requestHostname)
 	}
 
 	transport := "udp"
