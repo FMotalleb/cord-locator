@@ -44,14 +44,6 @@ rules:
     matcherParams:
       - (.*\.)?accounts\.ea\.com.*
       - (.*\.)?signin\.ea.com\.*
-    resolver: "shecan"
-    resolverParams: ea.com.
-#    raw:
-#      A: "{{ .address }}	60	IN	A	50.7.87.85"
-
-  - name: Ea proxy
-    matcher: regex
-    matcherParams:
       - (.*\.)?ea\..*
       - (.*\.)?origin\..*
       - (.*\.)?tnt-ea\..*
@@ -60,6 +52,15 @@ rules:
       - (.*\.)?azure\..*
       - (.*\.)?footprintdns\..*
     resolver: "shecan"
+    resolverParams: ea.com.
+  #    raw:
+  #      A: "{{ .address }}	60	IN	A	50.7.87.85"
+
+  # - name: Ea proxy
+  #   matcher: regex
+  #   matcherParams:
+
+  #   resolver: "shecan"
 
   - name: EasyAntiCheat proxy
     matcher: regex
@@ -79,13 +80,21 @@ rules:
       - (.*\.)amazonaws.com
     resolver: "shecan"
 
+  - name: Bard proxy
+    matcher: regex
+    matcherParams:
+      - (.*\.)?bard\.google\.com
+    resolver: "shecan"
+    resolverParams: ea.com.
+
   - name: GlobalConfigs proxy
     matcher: regex
     matcherParams:
       - (.*\.)?googleapis\..*
       - (.*\.)?googlehosted.com
-      - (.*\.)?bard.google.com
     resolver: "shecan"
+    resolverParams: ea.com.
+
   - name: 403 fallback
     matcher: regex
     matcherParams:
@@ -120,10 +129,8 @@ rules:
       - (.*\.)?dartlang.*
     resolver: "shecan"
 
-  - name: Raw proxy
-    matcher: exact
-    matcherParams:
-      - raw.raw.
-    raw:
-      A: "{{ .address }} 60	IN	A	1.2.3.4"
-      AAAA: "{{ .address }} 60 IN AAAA FFFF:FFFF:FFFF:FFFF::FFFF"
+  # - name: Raw proxy
+  #   matcher: regex
+  #   matcherParams:
+  #     - "."
+  #   resolver: opendns

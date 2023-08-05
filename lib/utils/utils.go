@@ -4,10 +4,11 @@ package utils
 
 import (
 	"bytes"
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/rule"
 	"html/template"
 	"net"
 	"strings"
+
+	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/rule"
 
 	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config"
 	"github.com/miekg/dns"
@@ -26,23 +27,29 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 		log.Panic().Msgf("received request has no question")
 	}
 	requestHostname := req.Question[0].Name
-	log.Debug().Msgf("received request to find `%s`", requestHostname)
+	// log.Debug().Msgf("received request to find `%s`", requestHostname)
 	r := c.FindRuleFor(requestHostname)
-	dnsProvider := *c.GetDefaultProvider()
-	switch {
-	case r.IsBlocked:
-		log.Debug().Msgf("blocking `%s`", requestHostname)
-		log.Panic().Msgf("blocked request")
-		return
-	case r == nil:
-		log.Debug().Msgf("no handler found for `%s`, will use default handler", requestHostname)
-	case r.Resolver != nil:
-		dnsProvider = *c.FindProvider(*r.Resolver)
-		log.Debug().Msgf("handler found for `%s`, will use %v, request: %v", requestHostname, dnsProvider, UnNil(r.ResolverParams, requestHostname))
-	case r.Raw != nil:
-		if handleRawResponse(requestHostname, r, req, w) {
+
+	dnsProvider := c.GetDefaultProvider()
+	if r != nil {
+		switch {
+		case r.IsBlocked:
+			log.Debug().Msgf("blocking `%s`", requestHostname)
+			log.Panic().Msgf("blocked request")
 			return
+		case r.Resolver != nil:
+			dnsProvider = c.FindProvider(*r.Resolver)
+			log.Debug().Msgf("handler found for `%s`, will use %v, request: %v", requestHostname, dnsProvider, UnNil(r.ResolverParams, requestHostname))
+		case r.Raw != nil:
+
+			if handleRawResponse(requestHostname, r, req, w) {
+				log.Trace().Msgf("handled request for %s using raw response", requestHostname)
+				return
+			}
+			log.Trace().Msgf("cannot handle request for %s using raw response", requestHostname)
 		}
+	} else {
+		log.Debug().Msgf("no rule found for `%s`, will use default handler", requestHostname)
 	}
 
 	transport := "udp"
