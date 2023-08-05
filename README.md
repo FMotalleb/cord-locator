@@ -11,6 +11,7 @@
     > instead of handling request and writing response in provider
     > just handle request in provider dus making it testable
     * [X] dns provider ip fallback instead of random
+* [ ] change provider params
 * [ ] dns providers (for each rule)
 * [ ] fill `README.md`
 * [ ] rule grouping

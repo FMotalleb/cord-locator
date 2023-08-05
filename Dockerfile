@@ -5,17 +5,21 @@ WORKDIR /app
 RUN go build -o dns . 
 
 FROM alpine:latest AS runtime
-COPY --from=builder /app/dns /usr/bin/
-RUN chmod +x /usr/bin/dns
+RUN mkdir /app
+WORKDIR /app
+COPY --from=builder /app/dns /app/
+RUN chmod +x /app/dns
+COPY ./config.yaml /app/config.yaml
 EXPOSE 53
 EXPOSE 53/udp
-RUN apk del apk-tools
 
-# ENV LOG_LEVEL info
-# ENV LOG_FILE /dns.log
-# ENV CONFIG_FILE "config.yaml"
+RUN apk del apk-tools
+ENV PATH "/app:$PATH"
+ENV LOG_LEVEL info
+ENV LOG_FILE "/app/dns.log"
+ENV CONFIG_FILE "/app/config.yaml"
 
 # watching is not supported in container
 # ENV WATCH_CONFIG_FILE "false"
 
-ENTRYPOINT [ "dns" ]
+ENTRYPOINT [ "/app/dns" ]

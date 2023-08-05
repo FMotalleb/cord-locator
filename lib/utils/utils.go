@@ -21,17 +21,16 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 		responseErrorToRequest(w, req)
 		return
 	}
-
 	requestHostname := req.Question[0].Name
 	log.Debug().Msgf("received request to find `%s`", requestHostname)
 	r := c.FindRuleFor(requestHostname)
 	dnsProvider := provider.Provider{}
-	if r == nil {
+	switch {
+	case r == nil:
 		dnsProvider = *c.GetDefaultProvider()
-
-	} else if r.Resolver != nil {
+	case r.Resolver != nil:
 		dnsProvider = *c.FindProvider(*r.Resolver)
-	} else if r.Raw != nil {
+	case r.Raw != nil:
 		mapper := make(map[string]string, 0)
 		mapper["address"] = requestHostname
 		raw := r.GetRaw(dns.TypeToString[req.Question[0].Qtype])
@@ -59,7 +58,7 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 		transport = "tcp"
 	}
 	resp := dnsProvider.Handle(transport, req)
-	w.WriteMsg(resp)
+	_ = w.WriteMsg(resp)
 }
 
 func responseErrorToRequest(w dns.ResponseWriter, r *dns.Msg) {
@@ -97,7 +96,6 @@ func isTransfer(req *dns.Msg) bool {
 	return false
 }
 func formatString(text string, hashmap map[string]string) string {
-
 	tmpl, err := template.New("Mapper").Parse(text)
 	if err != nil {
 		panic(err)
@@ -108,4 +106,14 @@ func formatString(text string, hashmap map[string]string) string {
 		panic(err)
 	}
 	return writer.String()
+}
+
+// FindFirst non-null value in items
+func FindFirst[T any](items ...*T) (t *T) {
+	for _, item := range items {
+		if item != nil {
+			return item
+		}
+	}
+	return nil
 }
