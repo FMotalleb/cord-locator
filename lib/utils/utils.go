@@ -27,18 +27,20 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 		log.Panic().Msgf("received request has no question")
 	}
 	requestHostname := req.Question[0].Name
-	log.Debug().Msgf("received request to find `%s`", requestHostname)
+	// log.Debug().Msgf("received request to find `%s`", requestHostname)
 	r := c.FindRuleFor(requestHostname)
-	dnsProvider := *c.GetDefaultProvider()
+
+	dnsProvider := c.GetDefaultProvider()
 	switch {
+
+	case r == nil:
+		log.Debug().Msgf("no rule found for `%s`, will use default handler", requestHostname)
 	case r.IsBlocked:
 		log.Debug().Msgf("blocking `%s`", requestHostname)
 		log.Panic().Msgf("blocked request")
 		return
-	case r == nil:
-		log.Debug().Msgf("no handler found for `%s`, will use default handler", requestHostname)
 	case r.Resolver != nil:
-		dnsProvider = *c.FindProvider(*r.Resolver)
+		dnsProvider = c.FindProvider(*r.Resolver)
 		log.Debug().Msgf("handler found for `%s`, will use %v, request: %v", requestHostname, dnsProvider, UnNil(r.ResolverParams, requestHostname))
 	case r.Raw != nil:
 

@@ -16,7 +16,7 @@ type Rule struct {
 	Resolver       *string            `yaml:"resolver"`
 	ResolverParams *string            `yaml:"resolverParams"`
 	Raw            *map[string]string `yaml:"raw"`
-	IsBlocked      bool               `yaml:"isBlocked,alias:blocked"`
+	IsBlocked      bool               `yaml:"isBlocked,alias:blocked,default:false"`
 }
 
 func (r *Rule) String() string {
