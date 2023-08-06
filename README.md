@@ -5,8 +5,8 @@
 
 
 ## Simple Rule based dns reverse proxy
-
-* [X] Raw-Response
+### v2.0.x
+* [X]     Raw-Response
 * [X] block request
 * [X] update Flow
     > instead of handling request and writing response in provider
@@ -15,12 +15,15 @@
 * [X] change provider params
 * [ ] dns providers (for each rule)
 * [ ] fill `README.md`
+### v2.1.x
+* [ ] DOT client
+* [ ] DOH client
 * [ ] rule grouping
 * [ ] dns grouping
+### v3.0.x
 * [ ] DOT inward
-* [ ] DOT outward
 * [ ] DOH inward
-* [ ] DOH outward
+
 
 ## Development
 
