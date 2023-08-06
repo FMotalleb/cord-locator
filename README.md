@@ -43,8 +43,7 @@ flowchart TB
     F --> G[Create Pull Request]
     G --> H((Actions Fail?))
     H --> |Yes| F
-    H --> |No| I((Actions Pass))
-    I --> J[Merge into Main Branch]
+    H --> |NO| J[Merge into Main Branch]
     
     J --> K[Release Version]
     K --> M[Docker Image Build]
