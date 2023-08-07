@@ -30,7 +30,7 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 	// log.Debug().Msgf("received request to find `%s`", requestHostname)
 	r := c.FindRuleFor(requestHostname)
 
-	resolvers := c.GetDefaultProvider()
+	resolvers := c.GetDefaultProviders()
 	if r != nil {
 		switch {
 		case r.IsBlocked:

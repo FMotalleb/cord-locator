@@ -8,10 +8,10 @@ import (
 
 // Config is configuration of the dns proxy
 type Config struct {
-	Global          globals.CoreConfiguration `yaml:"global"`
-	Providers       []provider.Provider       `yaml:"providers"`
-	Rules           []rule.Rule               `yaml:"rules"`
-	defaultProvider []provider.Provider
+	Global           globals.CoreConfiguration `yaml:"global"`
+	Providers        []provider.Provider       `yaml:"providers"`
+	Rules            []rule.Rule               `yaml:"rules"`
+	defaultProviders []provider.Provider
 }
 
 // Validate will check current configuration (rules/providers/...)
@@ -29,30 +29,21 @@ func (c *Config) Validate() bool {
 	if !c.Global.Validate() {
 		panic("validation failed for rules")
 	}
-	if c.GetDefaultProvider() == nil {
+	//TODO: check length of rules and providers
+	if len(c.GetDefaultProviders()) == 0 {
 		panic("default provider was not found")
 	}
 	return true
 }
 
-// GetDefaultProvider set in global config
-func (c *Config) GetDefaultProvider() []provider.Provider {
+// GetDefaultProviders set in global config
+func (c *Config) GetDefaultProviders() []provider.Provider {
 
-	if c.defaultProvider == nil {
-		c.defaultProvider = c.FindProviders(c.Global.DefaultProviders)
+	if c.defaultProviders == nil {
+		c.defaultProviders = c.FindProviders(c.Global.DefaultProviders)
 	}
 
-	return c.defaultProvider
-}
-
-// FindProvider with given name
-func (c *Config) FindProvider(name string) *provider.Provider {
-	for _, p := range c.Providers {
-		if p.Name == name {
-			return &p
-		}
-	}
-	return nil
+	return c.defaultProviders
 }
 
 // FindProviders with given names
