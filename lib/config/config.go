@@ -39,7 +39,7 @@ func (c *Config) Validate() bool {
 func (c *Config) GetDefaultProvider() []provider.Provider {
 
 	if c.defaultProvider == nil {
-		c.defaultProvider = c.FindProviders(c.Global.DefaultProvider)
+		c.defaultProvider = c.FindProviders(c.Global.DefaultProviders)
 	}
 
 	return c.defaultProvider

@@ -4,7 +4,7 @@ global:
     - "0.0.0.0"
     - "127.0.0.1"
     - "::1"
-  defaultProvider: opendns
+  defaultProviders: opendns
 
 providers:
   - name: cf
@@ -41,7 +41,7 @@ rules:
   #   matcher: regex
   #   matcherParams:
   #     - (.*)
-  #   resolver:
+  #   resolvers:
   #     - FAILED
   #     - opendns
   - name: Ea blaze (Direct)
@@ -50,7 +50,7 @@ rules:
       - (.*\.)?blaze\.ea\.com
       - (.*\.)?spring18\.gosredirector\.ea\.com
       # - (.*\.)?juno\.ea\.com
-    resolver: opendns
+    resolvers: opendns
 
   - name: Ea Acc proxy
     matcher: regex
@@ -67,33 +67,33 @@ rules:
       - (.*\.)?azurefd\.net
       - (.*\.)?footprintdns\..*
       - (.*\.)?sentry\.io
-    resolver: "shecan"
+    resolvers: "shecan"
     resolverParams: ea.com.
 
   - name: EasyAntiCheat proxy
     matcher: regex
     matcherParams:
       - (.*\.)?easyanticheat.net\..*
-    resolver: "shecan"
+    resolvers: "shecan"
 
   - name: golang proxy
     matcher: regex
     matcherParams:
       - (.*\.)?golang\..*
       - (.*\.)?go-mpulse.net
-    resolver: shecan
+    resolvers: shecan
   - name: Amazon proxy
     matcher: regex
     matcherParams:
       - (.*\.)amazonaws.com
-    resolver: "shecan"
+    resolvers: "shecan"
     # resolverParams: ea.com.
 
   - name: Bard proxy
     matcher: regex
     matcherParams:
       - (.*\.)?bard\.google\.com
-    resolver: "shecan"
+    resolvers: "shecan"
     resolverParams: ea.com.
 
   - name: GlobalConfigs proxy
@@ -101,14 +101,14 @@ rules:
     matcherParams:
       - (.*\.)?googleapis\..*
       - (.*\.)?googlehosted.com
-    resolver: "shecan"
+    resolvers: "shecan"
     resolverParams: ea.com.
 
   - name: 403 fallback
     matcher: regex
     matcherParams:
       - (.*)?\.403
-    resolver: "403"
+    resolvers: "403"
 
   - name: Spotify proxy
     matcher: regex
@@ -117,24 +117,24 @@ rules:
       - (.*\.)?akamaihd\..*
       - (.*\.)?scdn\..*
       - (.*\.)?spotifycdn.com
-    resolver: shecan
+    resolvers: shecan
     resolverParams: ea.com.
 
   - name: Sentry proxy
     matcher: regex
     matcherParams:
       - (.*\.)?sentry\..*
-    resolver: shecan
+    resolvers: shecan
 
   - name: Flutter-Pub proxy
     matcher: regex
     matcherParams:
       - (.*\.)?flutter.*
       - (.*\.)?pub.dev.*
-    resolver: "shecan"
+    resolvers: "shecan"
 
   - name: DartLang proxy
     matcher: regex
     matcherParams:
       - (.*\.)?dartlang.*
-    resolver: "shecan"
+    resolvers: "shecan"

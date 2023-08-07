@@ -8,19 +8,15 @@ import (
 
 // CoreConfiguration is holds information of dns server listen port,AllowTransfer and default provider
 type CoreConfiguration struct {
-	Address         string   `yaml:"address"`
-	AllowTransfer   []string `yaml:"allowTransfer"`
-	DefaultProvider []string `yaml:"defaultProvider,alias:defaultProviders"`
+	Address          string   `yaml:"address"`
+	AllowTransfer    []string `yaml:"allowTransfer"`
+	DefaultProviders []string `yaml:"defaultProviders"`
 }
 
 // Validate will check core configurations and verify it
 func (r *CoreConfiguration) Validate() bool {
-	if &r.DefaultProvider == nil {
-		log.Debug().Msg("default provider has to be set")
-		return false
-	}
-	if &r.DefaultProvider == nil {
-		log.Debug().Msg("default provider has to be set")
+	if len(r.DefaultProviders) != 0 {
+		log.Debug().Msg("default providers has to be set")
 		return false
 	}
 	parts := strings.SplitAfter(r.Address, ":")
