@@ -37,8 +37,8 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 			log.Debug().Msgf("blocking `%s`", requestHostname)
 			log.Panic().Msgf("blocked request")
 			return
-		case r.Resolver != nil:
-			resolvers = c.FindProviders(r.Resolver)
+		case r.Resolvers != nil:
+			resolvers = c.FindProviders(r.Resolvers)
 			log.Debug().Msgf("handler found for `%s`, will use %v, request: %v", requestHostname, resolvers, UnNil(r.ResolverParams, requestHostname))
 		case r.Raw != nil:
 

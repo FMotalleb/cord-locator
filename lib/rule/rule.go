@@ -13,14 +13,14 @@ type Rule struct {
 	Name           *string            `yaml:"name"`
 	Matcher        string             `yaml:"matcher"`
 	MatcherParams  []string           `yaml:"matcherParams"`
-	Resolver       []string           `yaml:"resolver,alias:resolvers"`
+	Resolvers      []string           `yaml:"resolvers,alias:resolvers"`
 	ResolverParams *string            `yaml:"resolverParams"`
 	Raw            *map[string]string `yaml:"raw"`
 	IsBlocked      bool               `yaml:"isBlocked,alias:blocked,default:false"`
 }
 
 func (r *Rule) String() string {
-	return fmt.Sprintf("rule(Name: %v,Matcher: %s,MatcherParams: %v,Resolver: %v,Raw: %v, IsBlocked: %v)", r.Name, r.Matcher, r.MatcherParams, r.Resolver, r.IsBlocked, r.IsBlocked)
+	return fmt.Sprintf("rule(Name: %v,Matcher: %s,MatcherParams: %v,Resolver: %v,Raw: %v, IsBlocked: %v)", r.Name, r.Matcher, r.MatcherParams, r.Resolvers, r.IsBlocked, r.IsBlocked)
 }
 
 // GetRaw will try to find raw response in the rule
@@ -65,7 +65,7 @@ func (r *Rule) validateResolveMethod() bool {
 	if r.IsBlocked {
 		return true
 	}
-	if (r.Resolver == nil) && (r.Raw == nil) {
+	if (len(r.Resolvers) == 0) && (r.Raw == nil) {
 		log.Debug().Msgf("no resolver or raw response found for rule: %s", r)
 		return false
 	}
