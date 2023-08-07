@@ -4,57 +4,73 @@
 [![codecov](https://codecov.io/gh/FMotalleb/mockery/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/mockery)
 
 
-## Simple Rule based DNS reverse proxy
-### v2.0.x
-* [X] Raw-Response
-* [X] Block request
-* [X] Update Flow
-    > Instead of handling requests and writing responses in the provider
-    > Just handle requests in provider dus making it testable
-    * [X] DNS provider ip fallback instead of random (Done as a side effect of changing the flow)
-* [X] Change provider params
-* [X] DNS providers (for each rule)
-* [ ] Test config methods
-* [ ] Fix test-log messages/levels
-* [ ] Fix Docs
-* [ ] Add More Tests
-* [ ] Refactor the code
-* [ ] check config (maybe)
-* [ ] Rename Project
-* [ ] Fill `README.md`
-### v2.1.x
-* [ ] DOT client
-* [ ] DOH client
-* [ ] Rule grouping
-* [ ] DNS grouping
-### v3.0.x
-* [ ] DOT inward
-* [ ] DOH inward
+# Simple Rule-Based DNS Reverse Proxy Project
+## Progress
+### Version 2.0.x
+In this version, the following tasks have been completed:
+- [X] Implemented Raw-Response handling.
+- [X] Enabled blocking of specific requests.
+- [X] Updated the request-handling flow:
+  - Instead of managing requests and composing responses within the provider, requests are now solely managed within the provider, making testing more feasible.
+- [X] Implemented DNS provider IP fallback, which replaced the previous random approach (this change was a side effect of altering the flow).
+- [X] Modified provider parameters as needed.
+- [X] Added support for multiple DNS providers for each rule.
+
+However, there are some remaining tasks for version 2.0.x:
+- [ ] Test the configuration package.
+- [ ] Address and enhance log messages and levels.
+- [ ] Address and enhance test messages.
+- [ ] Improve project (code) documentation.
+- [ ] Expand test coverage.
+- [ ] Conduct code refactoring.
+- [ ] Potentially review and adjust the configuration.
+- [ ] Consider renaming the project to a more reasonable name.
+- [ ] Populate the `README.md` file with relevant information.
+
+### Version 2.1.x (Planned)
+The upcoming version 2.1.x will introduce the following features:
+- [ ] Implementation of a DOT (DNS over TLS) client. (As Resolver)
+- [ ] Development of a DOH (DNS over HTTPS) client. (As Resolver)
+- [ ] Introduction of rule grouping for improved organization.
+- [ ] Implementation of DNS grouping to enhance management.
+
+### Version 3.0.x (Planned)
+The future version 3.0.x is expected to include the following additions:
+- [ ] Integration of DOT inward capabilities. (As server)
+- [ ] Implementation of DOH inward functionalities. (As server)
+
+Please note that these tasks represent the current project status and planned developments. The project is actively evolving to incorporate these changes and improvements.
 
 
 ## Development
 
 ```mermaid
 flowchart TB
-    subgraph "Initialize"
-        A[Main Branch] --> B((Project Start))
+    subgraph "Master Channel"
+        A((Main Branch)) -->|Start| B[Release Tag]
     end
-
+    subgraph "CD"
+        B -->|Build Image| M[Docker Image Build]
+    end
     subgraph "Feature Development"
-        B --> C[Create Feature Branch: Feature 1]
-        B --> D[Create Feature Branch: Feature 2]
-        B --> E[Create Feature Branch: Feature 3]
+        A --> C[Create Branch Per Feature]
+        C -->|Create| F((Feature Development))
+
+        F -->|Develop| G[Create Pull Request]
+        G -->|Pass?| H((Actions Pass?))
+        H -->|No| F
+        H -->|Yes| A
     end
 
-    C --> F((Feature Development))
-    D --> F
-    E --> F
-
-    F --> G[Create Pull Request]
-    G --> H((Actions Fail?))
-    H --> |Yes| F
-    H --> |NO| J[Merge into Main Branch]
-    
-    J --> K[Release Version]
-    K --> M[Docker Image Build]
+    %% Descriptions
+    style B fill:#44bd32,stroke:#333,stroke-width:2px
+    style M fill:#192a56,stroke:#333,stroke-width:2px
+    style C fill:#c23616,stroke:#333,stroke-width:2px
+    style A stroke:#333,stroke-width:2px
+    style F stroke:#333,stroke-width:2px
+    style G stroke:#333,stroke-width:2px
+    style H stroke:#333,stroke-width:2px
+    style B stroke:#333,stroke-width:2px
+    style M stroke:#333,stroke-width:2px
+    style C stroke:#333,stroke-width:2px
 ```
