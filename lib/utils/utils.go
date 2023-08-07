@@ -30,7 +30,7 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 	// log.Debug().Msgf("received request to find `%s`", requestHostname)
 	r := c.FindRuleFor(requestHostname)
 
-	dnsProvider := c.GetDefaultProvider()
+	resolvers := c.GetDefaultProvider()
 	if r != nil {
 		switch {
 		case r.IsBlocked:
@@ -38,8 +38,8 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 			log.Panic().Msgf("blocked request")
 			return
 		case r.Resolver != nil:
-			dnsProvider = c.FindProvider(*r.Resolver)
-			log.Debug().Msgf("handler found for `%s`, will use %v, request: %v", requestHostname, dnsProvider, UnNil(r.ResolverParams, requestHostname))
+			resolvers = c.FindProviders(r.Resolver)
+			log.Debug().Msgf("handler found for `%s`, will use %v, request: %v", requestHostname, resolvers, UnNil(r.ResolverParams, requestHostname))
 		case r.Raw != nil:
 
 			if handleRawResponse(requestHostname, r, req, w) {
@@ -59,7 +59,14 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 	if r != nil && r.ResolverParams != nil {
 		changeRequestAddress(req, *r.ResolverParams)
 	}
-	resp := dnsProvider.Handle(transport, req)
+	var resp *dns.Msg
+	for _, resolver := range resolvers {
+		resp = resolver.Handle(transport, req)
+		if resp != nil {
+			break
+		}
+	}
+
 	if r != nil && r.ResolverParams != nil {
 		changeResponseAddress(resp, requestHostname)
 	}

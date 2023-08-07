@@ -1,15 +1,16 @@
 package globals
 
 import (
-	"github.com/rs/zerolog/log"
 	"strings"
+
+	"github.com/rs/zerolog/log"
 )
 
 // CoreConfiguration is holds information of dns server listen port,AllowTransfer and default provider
 type CoreConfiguration struct {
 	Address         string   `yaml:"address"`
 	AllowTransfer   []string `yaml:"allowTransfer"`
-	DefaultProvider string   `yaml:"defaultProvider"`
+	DefaultProvider []string `yaml:"defaultProvider,alias:defaultProviders"`
 }
 
 // Validate will check core configurations and verify it

@@ -9,11 +9,13 @@ import (
 func TestRegexMatcherPass(t *testing.T) {
 	rgp := make([]string, 0)
 	rgp = append(rgp, ".*")
-	name := "test"
+
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "regex",
 		MatcherParams: rgp,
-		Resolver:      &name,
+		Resolver:      name,
 	}
 	if !item.Match("google.com") {
 		t.Error("matcher is working incorrectly, expected to match `google.com`")
@@ -23,11 +25,12 @@ func TestRegexMatcherPassEvenIfFailedBefore(t *testing.T) {
 	rgp := make([]string, 0)
 	rgp = append(rgp, ".com")
 	rgp = append(rgp, ".*")
-	name := "test"
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "regex",
 		MatcherParams: rgp,
-		Resolver:      &name,
+		Resolver:      name,
 	}
 	if !item.Match("google.com") {
 		t.Error("matcher is working incorrectly, expected to match `google.com`")
@@ -36,11 +39,12 @@ func TestRegexMatcherPassEvenIfFailedBefore(t *testing.T) {
 func TestRegexMatcherFail(t *testing.T) {
 	rgp := make([]string, 0)
 	rgp = append(rgp, "not-google")
-	name := "test"
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "regex",
 		MatcherParams: rgp,
-		Resolver:      &name,
+		Resolver:      name,
 	}
 	if item.Match("google.com") {
 		t.Error("matcher is working incorrectly, expected to fail matching")
@@ -60,12 +64,14 @@ func TestValidateRegexFail(t *testing.T) {
 func TestValidateRegexPass(t *testing.T) {
 	rgp := make([]string, 1)
 	rgp = append(rgp, ".*")
-	name := "test"
+	nameRaw := "test"
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "regex",
 		MatcherParams: rgp,
-		Resolver:      &name,
-		Name:          &name,
+		Resolver:      name,
+		Name:          &nameRaw,
 	}
 	if !item.Validate() {
 		t.Error("Item has valid regex and configuration it must pass")
@@ -74,11 +80,12 @@ func TestValidateRegexPass(t *testing.T) {
 func TestValidateRegexPassWithMissingName(t *testing.T) {
 	rgp := make([]string, 1)
 	rgp = append(rgp, ".*")
-	name := "test"
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "regex",
 		MatcherParams: rgp,
-		Resolver:      &name,
+		Resolver:      name,
 	}
 	if !item.Validate() {
 		t.Error("Item has valid regex and configuration it must pass, only missing Name")
@@ -87,11 +94,12 @@ func TestValidateRegexPassWithMissingName(t *testing.T) {
 func TestValidateRegexFailOnWrongRegex(t *testing.T) {
 	rgp := make([]string, 1)
 	rgp = append(rgp, "**")
-	name := "test"
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "regex",
 		MatcherParams: rgp,
-		Resolver:      &name,
+		Resolver:      name,
 	}
 	if item.Validate() {
 		t.Error("Given regex is invalid this item should fail at validation")
@@ -117,12 +125,14 @@ func TestFailValidate(t *testing.T) {
 func TestValidateExactPass(t *testing.T) {
 	rgp := make([]string, 0)
 	rgp = append(rgp, "google.")
-	name := "test"
+	nameRaw := "test"
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "exact",
 		MatcherParams: rgp,
-		Resolver:      &name,
-		Name:          &name,
+		Resolver:      name,
+		Name:          &nameRaw,
 	}
 	if !item.Validate() {
 		t.Error("Item has valid params and configuration it must pass")
@@ -130,12 +140,14 @@ func TestValidateExactPass(t *testing.T) {
 }
 func TestValidateExactFail(t *testing.T) {
 	rgp := make([]string, 0)
-	name := "test"
+	nameRaw := "test"
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "exact",
 		MatcherParams: rgp,
-		Resolver:      &name,
-		Name:          &name,
+		Resolver:      name,
+		Name:          &nameRaw,
 	}
 	if item.Validate() {
 		t.Error("Item has invalid configuration it must fail")
@@ -144,11 +156,12 @@ func TestValidateExactFail(t *testing.T) {
 func TestExactMatcherPass(t *testing.T) {
 	rgp := make([]string, 0)
 	rgp = append(rgp, "google.com.")
-	name := "test"
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "exact",
 		MatcherParams: rgp,
-		Resolver:      &name,
+		Resolver:      name,
 	}
 	if !item.Match("google.com.") {
 		t.Error("matcher is working incorrectly, expected to match `google.com`")
@@ -157,11 +170,12 @@ func TestExactMatcherPass(t *testing.T) {
 func TestExactMatcherFail(t *testing.T) {
 	rgp := make([]string, 0)
 	rgp = append(rgp, "google.com.")
-	name := "test"
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "exact",
 		MatcherParams: rgp,
-		Resolver:      &name,
+		Resolver:      name,
 	}
 	if item.Match("google.com") {
 		t.Error("matcher is working incorrectly, expected to fail matching `google.com`")
@@ -215,11 +229,12 @@ func TestRawGetCannotResolveItemMissingRaw(t *testing.T) {
 func TestRawGetCannotResolveItemNoRaw(t *testing.T) {
 	rgp := make([]string, 0)
 	rgp = append(rgp, "google.com.")
-	name := "test"
+	name := make([]string, 0)
+	name = append(name, "test")
 	item := rule.Rule{
 		Matcher:       "exact",
 		MatcherParams: rgp,
-		Resolver:      &name,
+		Resolver:      name,
 	}
 	if item.GetRaw("A") != nil {
 		t.Error("no record was set for this rule this test must fail")

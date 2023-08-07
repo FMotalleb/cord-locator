@@ -13,7 +13,7 @@ type Rule struct {
 	Name           *string            `yaml:"name"`
 	Matcher        string             `yaml:"matcher"`
 	MatcherParams  []string           `yaml:"matcherParams"`
-	Resolver       *string            `yaml:"resolver"`
+	Resolver       []string           `yaml:"resolver,alias:resolvers"`
 	ResolverParams *string            `yaml:"resolverParams"`
 	Raw            *map[string]string `yaml:"raw"`
 	IsBlocked      bool               `yaml:"isBlocked,alias:blocked,default:false"`

@@ -11,7 +11,7 @@ type Config struct {
 	Global          globals.CoreConfiguration `yaml:"global"`
 	Providers       []provider.Provider       `yaml:"providers"`
 	Rules           []rule.Rule               `yaml:"rules"`
-	defaultProvider *provider.Provider
+	defaultProvider []provider.Provider
 }
 
 // Validate will check current configuration (rules/providers/...)
@@ -36,10 +36,12 @@ func (c *Config) Validate() bool {
 }
 
 // GetDefaultProvider set in global config
-func (c *Config) GetDefaultProvider() *provider.Provider {
+func (c *Config) GetDefaultProvider() []provider.Provider {
+
 	if c.defaultProvider == nil {
-		c.defaultProvider = c.FindProvider(c.Global.DefaultProvider)
+		c.defaultProvider = c.FindProviders(c.Global.DefaultProvider)
 	}
+
 	return c.defaultProvider
 }
 
@@ -51,6 +53,20 @@ func (c *Config) FindProvider(name string) *provider.Provider {
 		}
 	}
 	return nil
+}
+
+// FindProviders with given names
+func (c *Config) FindProviders(names []string) []provider.Provider {
+	providers := make([]provider.Provider, 0)
+	for _, name := range names {
+		for _, p := range c.Providers {
+			if p.Name == name {
+				providers = append(providers, p)
+			}
+		}
+	}
+
+	return providers
 }
 
 // FindRuleFor given address, this will only find first rule that matches given address
