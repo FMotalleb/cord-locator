@@ -13,7 +13,7 @@
     > just handle request in provider dus making it testable
     * [X] dns provider ip fallback instead of random (Done as a side effect of changing the flow)
 * [X] change provider params
-* [ ] dns providers (for each rule)
+* [X] dns providers (for each rule)
 * [ ] fill `README.md`
 ### v2.1.x
 * [ ] DOT client
