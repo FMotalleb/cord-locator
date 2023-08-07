@@ -4,22 +4,29 @@
 [![codecov](https://codecov.io/gh/FMotalleb/mockery/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/mockery)
 
 
-## Simple Rule based dns reverse proxy
+## Simple Rule based DNS reverse proxy
 ### v2.0.x
-* [X]     Raw-Response
-* [X] block request
-* [X] update Flow
-    > instead of handling request and writing response in provider
-    > just handle request in provider dus making it testable
-    * [X] dns provider ip fallback instead of random (Done as a side effect of changing the flow)
-* [X] change provider params
-* [X] dns providers (for each rule)
-* [ ] fill `README.md`
+* [X] Raw-Response
+* [X] Block request
+* [X] Update Flow
+    > Instead of handling requests and writing responses in the provider
+    > Just handle requests in provider dus making it testable
+    * [X] DNS provider ip fallback instead of random (Done as a side effect of changing the flow)
+* [X] Change provider params
+* [X] DNS providers (for each rule)
+* [ ] Test config methods
+* [ ] Fix test-log messages/levels
+* [ ] Fix Docs
+* [ ] Add More Tests
+* [ ] Refactor the code
+* [ ] check config (maybe)
+* [ ] Rename Project
+* [ ] Fill `README.md`
 ### v2.1.x
 * [ ] DOT client
 * [ ] DOH client
-* [ ] rule grouping
-* [ ] dns grouping
+* [ ] Rule grouping
+* [ ] DNS grouping
 ### v3.0.x
 * [ ] DOT inward
 * [ ] DOH inward
