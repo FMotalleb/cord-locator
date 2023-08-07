@@ -15,7 +15,7 @@ type CoreConfiguration struct {
 
 // Validate will check core configurations and verify it
 func (r *CoreConfiguration) Validate() bool {
-	if len(r.DefaultProviders) != 0 {
+	if len(r.DefaultProviders) == 0 {
 		log.Debug().Msg("default providers has to be set")
 		return false
 	}
