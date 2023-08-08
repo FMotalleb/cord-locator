@@ -5,6 +5,10 @@
 
 
 # Simple Rule-Based DNS Reverse Proxy Project
+* Versioning will follow the semver format.
+* Versions in the format of vx.y.* will share the same configuration files without any changes relative to each other.
+  * For instance, version 2.0.1 can utilize the configuration file of 2.0.0, though the reverse may not be feasible.
+  * The sole exception was for v2.0.7: a keyword in the configuration file was altered (all `resolver` keys are now `resolvers`).
 ## Progress
 ### Version 2.0.x
 In this version, the following tasks have been completed:
