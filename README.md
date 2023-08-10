@@ -1,5 +1,7 @@
 # Mockery [**UNDER-DEVELOPMENT**]
 
+## Simple Rule-Based DNS Reverse Proxy Project
+
 [![ci](https://github.com/FMotalleb/mockery/actions/workflows/ci.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/FMotalleb/mockery/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/mockery)
 
@@ -17,7 +19,7 @@ Located at `ghcr.io/fmotalleb/mockery:(tag)`
 
 Located at `ghcr.io/fmotalleb/mockery-dev:(branch name: main,...)`
 
-# Simple Rule-Based DNS Reverse Proxy Project
+## Development contracts
 
 * Versioning will follow the semver format.
 * Versions in the format of vx.y.* will share the same configuration files without any changes relative to each other.
@@ -29,6 +31,7 @@ Located at `ghcr.io/fmotalleb/mockery-dev:(branch name: main,...)`
 ### Version 2.0.x
 
 In this version, the following tasks have been completed:
+
 * [X] Implemented Raw-Response handling.
 * [X] Enabled blocking of specific requests.
 * [X] Updated the request-handling flow:
@@ -36,9 +39,10 @@ In this version, the following tasks have been completed:
 * [X] Implemented DNS provider IP fallback, which replaced the previous random approach (this change was a side effect of altering the flow).
 * [X] Modified provider parameters as needed.
 * [X] Added support for multiple DNS providers for each rule.
+* [X] Test the configuration package.
 
 However, there are some remaining tasks for version 2.0.x:
-* [ ] Test the configuration package.
+
 * [ ] Address and enhance log messages and levels.
 * [ ] Address and enhance test messages.
 * [ ] Improve project (code) documentation.
@@ -51,6 +55,7 @@ However, there are some remaining tasks for version 2.0.x:
 ### Version 2.1.x (Planned)
 
 The upcoming version 2.1.x will introduce the following features:
+
 * [ ] Implementation of a DOT (DNS over TLS) client. (As Resolver)
 * [ ] Development of a DOH (DNS over HTTPS) client. (As Resolver)
 * [ ] Introduction of rule grouping for improved organization.
@@ -59,6 +64,7 @@ The upcoming version 2.1.x will introduce the following features:
 ### Version 3.0.x (Planned)
 
 The future version 3.0.x is expected to include the following additions:
+
 * [ ] Integration of DOT inward capabilities. (As server)
 * [ ] Implementation of DOH inward functionalities. (As server)
 
