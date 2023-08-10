@@ -4,10 +4,10 @@
 [![codecov](https://codecov.io/gh/FMotalleb/mockery/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/mockery)
 
 ## Deploy
-### using docker hub:
+### Using Docker hub:
 Located at `docker.io/fmotalleb/mockery:(tag)` 
 
-### using github registry (since v2.0.7)
+### Using GitHub registry (since v2.0.7)
 Located at `ghcr.io/fmotalleb/mockery:(tag)` 
 
 ### Development version
