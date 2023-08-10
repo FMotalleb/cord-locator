@@ -46,6 +46,8 @@ However, there are some remaining tasks for version 2.0.x:
 * [ ] Address and enhance log messages and levels.
 * [ ] Address and enhance test messages.
 * [ ] Improve project (code) documentation.
+* [ ] Introduction of rule grouping for improved organization.
+* [ ] Implementation of DNS grouping to enhance management.
 * [ ] Expand test coverage.
 * [ ] Conduct code refactoring.
 * [ ] Potentially review and adjust the configuration.
@@ -56,10 +58,11 @@ However, there are some remaining tasks for version 2.0.x:
 
 The upcoming version 2.1.x will introduce the following features:
 
+* [ ] Implementation of reading config from network (Refactor config Loader)
+* [ ] Implementation of Cache system
+* [ ] Implementation of database providers (CSV,SQL,)
 * [ ] Implementation of a DOT (DNS over TLS) client. (As Resolver)
 * [ ] Development of a DOH (DNS over HTTPS) client. (As Resolver)
-* [ ] Introduction of rule grouping for improved organization.
-* [ ] Implementation of DNS grouping to enhance management.
 
 ### Version 3.0.x (Planned)
 
