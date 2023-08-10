@@ -3,6 +3,15 @@
 [![ci](https://github.com/FMotalleb/mockery/actions/workflows/ci.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/FMotalleb/mockery/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/mockery)
 
+## Deploy
+### using docker hub:
+Located at `docker.io/fmotalleb/mockery:(tag)` 
+
+### using github registry (since v2.0.7)
+Located at `ghcr.io/fmotalleb/mockery:(tag)` 
+
+### Development version
+Located at `ghcr.io/fmotalleb/mockery-dev:main`
 
 # Simple Rule-Based DNS Reverse Proxy Project
 * Versioning will follow the semver format.
