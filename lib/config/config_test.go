@@ -17,25 +17,19 @@ func makeArray[T any](args ...T) []T {
 	return arr
 }
 func TestValidateFailingOnEmptyConfig(t *testing.T) {
+
+	DNSConfig := config.Config{}
 	defer func() {
 		err := recover()
 		if err == nil {
 			t.Error("config is missing mandatory parts it must fail (missing panic)")
 		}
 	}()
-	DNSConfig := config.Config{}
-	isValid := DNSConfig.Validate()
-	if isValid {
-		t.Error("config is missing mandatory parts it must fail")
-	}
+	_ = DNSConfig.Validate()
+	t.Error("config is missing mandatory parts it must fail")
 }
 func TestValidateFailingOnEmptyDefaultProviderConfig(t *testing.T) {
-	defer func() {
-		err := recover()
-		if err == nil {
-			t.Error("config is missing mandatory parts it must fail (missing panic)")
-		}
-	}()
+
 	DNSConfig := config.Config{
 		Global: globals.CoreConfiguration{
 			Address:       ":53",
@@ -43,19 +37,18 @@ func TestValidateFailingOnEmptyDefaultProviderConfig(t *testing.T) {
 			// DefaultProviders: makeArray("cf"),
 		},
 	}
-	isValid := DNSConfig.Validate()
-	if isValid {
-		t.Error("config is missing mandatory parts it must fail")
-	}
-}
-
-func TestValidateFailOnMissingProviderInProviderList(t *testing.T) {
 	defer func() {
 		err := recover()
 		if err == nil {
 			t.Error("config is missing mandatory parts it must fail (missing panic)")
 		}
 	}()
+	_ = DNSConfig.Validate()
+	t.Error("config is missing mandatory parts it must fail")
+}
+
+func TestValidateFailOnMissingProviderInProviderList(t *testing.T) {
+
 	DNSConfig := config.Config{
 		Global: globals.CoreConfiguration{
 			Address:          ":53",
@@ -63,10 +56,14 @@ func TestValidateFailOnMissingProviderInProviderList(t *testing.T) {
 			DefaultProviders: makeArray("cf"),
 		},
 	}
-	isValid := DNSConfig.Validate()
-	if isValid {
-		t.Error("config is carrying mandatory parts it must pass")
-	}
+	defer func() {
+		err := recover()
+		if err == nil {
+			t.Error("config is missing mandatory parts it must fail (missing panic)")
+		}
+	}()
+	_ = DNSConfig.Validate()
+	t.Error("config is missing mandatory parts it must fail")
 }
 
 func TestValidatePassOnCompleteConfig(t *testing.T) {
@@ -92,12 +89,7 @@ func TestValidatePassOnCompleteConfig(t *testing.T) {
 	}
 }
 func TestValidateFailOnMissingProviderConfig(t *testing.T) {
-	defer func() {
-		err := recover()
-		if err == nil {
-			t.Error("config is missing mandatory parts it must fail (missing panic)")
-		}
-	}()
+
 	DNSConfig := config.Config{
 		Global: globals.CoreConfiguration{
 			Address:          ":53",
@@ -114,19 +106,18 @@ func TestValidateFailOnMissingProviderConfig(t *testing.T) {
 			Resolvers:     makeArray("cf"),
 		}),
 	}
-	isValid := DNSConfig.Validate()
-	if isValid {
-		t.Error("config is carrying mandatory parts it must pass")
-	}
-}
-
-func TestValidateFailOnMissingRuleConfig(t *testing.T) {
 	defer func() {
 		err := recover()
 		if err == nil {
 			t.Error("config is missing mandatory parts it must fail (missing panic)")
 		}
 	}()
+	_ = DNSConfig.Validate()
+	t.Error("config is missing mandatory parts it must fail")
+}
+
+func TestValidateFailOnMissingRuleConfig(t *testing.T) {
+
 	DNSConfig := config.Config{
 		Global: globals.CoreConfiguration{
 			Address:          ":53",
@@ -143,10 +134,14 @@ func TestValidateFailOnMissingRuleConfig(t *testing.T) {
 			Resolvers:     makeArray("cf"),
 		}),
 	}
-	isValid := DNSConfig.Validate()
-	if isValid {
-		t.Error("config is carrying mandatory parts it must pass")
-	}
+	defer func() {
+		err := recover()
+		if err == nil {
+			t.Error("config is missing mandatory parts it must fail (missing panic)")
+		}
+	}()
+	_ = DNSConfig.Validate()
+	t.Error("config is missing mandatory parts it must fail")
 }
 func TestGetRulePass(t *testing.T) {
 	DNSConfig := config.Config{
