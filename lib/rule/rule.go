@@ -20,7 +20,10 @@ type Rule struct {
 }
 
 func (r *Rule) String() string {
-	return fmt.Sprintf("rule(Name: %v,Matcher: %s,MatcherParams: %v,Resolver: %v,Raw: %v, IsBlocked: %v)", r.Name, r.Matcher, r.MatcherParams, r.Resolvers, r.IsBlocked, r.IsBlocked)
+	if r.Name != nil {
+		return fmt.Sprintf("Rule(Name: %s)", *r.Name)
+	}
+	return fmt.Sprintf("Rule(Name: %s,params:%v)", "Unnamed", r.MatcherParams)
 }
 
 // GetRaw will try to find raw response in the rule
@@ -28,11 +31,14 @@ func (r *Rule) GetRaw(qType string) *string {
 	if r.Raw == nil {
 		return nil
 	}
+	log.Debug().Msgf("found raw response config in rule `%s`", r.String())
 	for key, value := range *r.Raw {
 		if strings.ToLower(qType) == strings.ToLower(key) {
+			log.Debug().Msgf("using raw `%s` record in rule `%s`", qType, r.String())
 			return &value
 		}
 	}
+	log.Debug().Msgf("missing type `%s` record in rule `%s`", qType, r.String())
 	return nil
 }
 
@@ -42,22 +48,23 @@ func (r *Rule) Match(address string) bool {
 	case "regex":
 		for _, pattern := range r.MatcherParams {
 			matcher := regexp.MustCompile(pattern)
-			if matcher != nil {
-				result := matcher.FindIndex([]byte(address))
-				if result != nil {
-					if result[0] == 0 {
-						return true
-					}
+			result := matcher.FindIndex([]byte(address))
+			if result != nil {
+				if result[0] == 0 {
+					log.Trace().Msgf("matcher `%s` matches `%s`", pattern, address)
+					return true
 				}
 			}
 		}
 	case "exact":
 		for _, pattern := range r.MatcherParams {
 			if address == pattern {
+				log.Trace().Msgf("matcher `%s` matches exactly `%s`", pattern, address)
 				return true
 			}
 		}
 	}
+	log.Trace().Msgf("`%s` was unable to match `%s`", r.String(), address)
 	return false
 }
 

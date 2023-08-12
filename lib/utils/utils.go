@@ -18,16 +18,16 @@ import (
 // HandleRequest checks if the request is allowed, then it finds the appropriate handler for the request and calls it.
 // The handler returns a response, which is then written to the ResponseWriter.
 func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
-	log.Debug().Msgf("received request to find `%v`", req.Question)
+	log.Trace().Msgf("received request to find `%v`", req.Question)
 	defer recoverDNSResponse(w, req)
 	if !allowed(c.Global.AllowTransfer, w, req) {
-		log.Panic().Msgf("received request is not allowed")
+		log.Panic().Msgf("request is not allowed")
 	}
 	if len(req.Question) == 0 {
-		log.Panic().Msgf("received request has no question")
+		log.Panic().Msgf("request has no question")
 	}
 	requestHostname := req.Question[0].Name
-	// log.Debug().Msgf("received request to find `%s`", requestHostname)
+	log.Trace().Msgf("received request to find `%s`", requestHostname)
 	r := c.FindRuleFor(requestHostname)
 
 	resolvers := c.GetDefaultProviders()
@@ -41,7 +41,6 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 			resolvers = c.FindProviders(r.Resolvers)
 			log.Debug().Msgf("handler found for `%s`, will use %v, request: %v", requestHostname, resolvers, UnNil(r.ResolverParams, requestHostname))
 		case r.Raw != nil:
-
 			if handleRawResponse(requestHostname, r, req, w) {
 				log.Trace().Msgf("handled request for %s using raw response", requestHostname)
 				return
@@ -56,11 +55,21 @@ func HandleRequest(c config.Config, w dns.ResponseWriter, req *dns.Msg) {
 	if _, ok := w.RemoteAddr().(*net.TCPAddr); ok {
 		transport = "tcp"
 	}
+
 	if r != nil && r.ResolverParams != nil {
 		changeRequestAddress(req, *r.ResolverParams)
 	}
 	var resp *dns.Msg
 	for _, resolver := range resolvers {
+		if transport == "tcp" && isTransfer(req) {
+			t := new(dns.Transfer)
+			c := resolver.HandleTransfer(req, *t)
+			if c != nil {
+				t.Out(w, req, c)
+				return
+			}
+		}
+
 		resp = resolver.Handle(transport, req)
 		if resp != nil {
 			break
@@ -130,9 +139,7 @@ func makeErrorMessage(r *dns.Msg) *dns.Msg {
 }
 
 func allowed(transferIPs []string, w dns.ResponseWriter, req *dns.Msg) bool {
-	if !isTransfer(req) {
-		return true
-	}
+
 	remote, _, _ := net.SplitHostPort(w.RemoteAddr().String())
 
 	for _, ip := range transferIPs {

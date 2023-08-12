@@ -74,7 +74,7 @@ func (c *Config) FindRuleFor(address string) *rule.Rule {
 	log.Debug().Msgf("finding rule that matches `%s` address", address)
 	for _, r := range c.Rules {
 		if r.Match(address) {
-			log.Debug().Msgf("found rule: `%v` that matches %s", r, address)
+			log.Debug().Msgf("found rule: `%v` that matches %s", r.String(), address)
 			return &r
 		}
 	}
