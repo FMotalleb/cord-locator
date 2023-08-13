@@ -12,6 +12,7 @@
 [![Tests](https://github.com/FMotalleb/mockery/actions/workflows/tests.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/tests.yml)
 
 </div>
+
 ## Deploy
 
 ### Using Docker hub
