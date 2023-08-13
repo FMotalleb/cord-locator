@@ -2,9 +2,16 @@
 
 ## Simple Rule-Based DNS Reverse Proxy Project
 
-[![ci](https://github.com/FMotalleb/mockery/actions/workflows/ci.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/FMotalleb/mockery/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/mockery)
+<div align="center">
 
+![Docker Pulls](https://img.shields.io/docker/pulls/fmotalleb/mockery) [![codecov](https://codecov.io/gh/FMotalleb/mockery/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/mockery)
+
+[![Publish Container to Docker](https://github.com/FMotalleb/mockery/actions/workflows/docker-reg.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/docker-reg.yml)
+[![Publish Container to Github](https://github.com/FMotalleb/mockery/actions/workflows/github-reg.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/github-reg.yml)
+[![Publish Container to Github at dev](https://github.com/FMotalleb/mockery/actions/workflows/github-reg-dev.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/github-reg-dev.yml)
+[![Tests](https://github.com/FMotalleb/mockery/actions/workflows/tests.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/tests.yml)
+
+</div>
 ## Deploy
 
 ### Using Docker hub
