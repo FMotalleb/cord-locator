@@ -49,6 +49,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags && '-distroless' }}
+          tags: ${{ steps.meta.outputs.tags }}-distroless
           labels: ${{ steps.meta.outputs.labels }}
           target: "distroless-runtime"
