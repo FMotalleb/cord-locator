@@ -52,8 +52,6 @@ func (r *Rule) Match(address string) bool {
 					}
 				}
 				log.Trace().Msgf("address: %s could not match regex pattern: %s", address, pattern)
-			} else {
-				log.Error().Msgf("compiling regex: %s failed", pattern)
 			}
 		}
 	case "exact":
