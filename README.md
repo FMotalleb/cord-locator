@@ -48,10 +48,10 @@ In this version, the following tasks have been completed:
 * [X] Modified provider parameters as needed.
 * [X] Added support for multiple DNS providers for each rule.
 * [X] Test the configuration package.
+* [X] Address and enhance log messages and levels.
 
 However, there are some remaining tasks for version 2.0.x:
 
-* [ ] Address and enhance log messages and levels.
 * [ ] Address and enhance test messages.
 * [ ] Improve project (code) documentation.
 * [ ] Expand test coverage.
