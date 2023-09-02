@@ -41,19 +41,25 @@ func (r *Rule) Match(address string) bool {
 	switch r.Matcher {
 	case "regex":
 		for _, pattern := range r.MatcherParams {
+			log.Trace().Msgf("compiling regex: %s", pattern)
 			matcher := regexp.MustCompile(pattern)
 			if matcher != nil {
 				result := matcher.FindIndex([]byte(address))
 				if result != nil {
 					if result[0] == 0 {
+						log.Trace().Msgf("address: %s matched regex pattern: %s", address, pattern)
 						return true
 					}
 				}
+				log.Trace().Msgf("address: %s could not match regex pattern: %s", address, pattern)
+			} else {
+				log.Error().Msgf("compiling regex: %s failed", pattern)
 			}
 		}
 	case "exact":
 		for _, pattern := range r.MatcherParams {
 			if address == pattern {
+				log.Trace().Msgf("address: %s matched exactly: %s", address, pattern)
 				return true
 			}
 		}
@@ -66,7 +72,7 @@ func (r *Rule) validateResolveMethod() bool {
 		return true
 	}
 	if (len(r.Resolvers) == 0) && (r.Raw == nil) {
-		log.Debug().Msgf("no resolver or raw response found for rule: %s", r)
+		log.Error().Msgf("no resolver or raw response found for rule: %s", r)
 		return false
 	}
 	return true
