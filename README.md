@@ -1,15 +1,15 @@
-# Mockery [**UNDER-DEVELOPMENT**]
+# Cord-Locator [**UNDER-DEVELOPMENT**]
 
 ## Simple Rule-Based DNS Reverse Proxy Project
 
 <div align="center">
 
-![Docker Pulls](https://img.shields.io/docker/pulls/fmotalleb/mockery) [![codecov](https://codecov.io/gh/FMotalleb/mockery/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/mockery)
+![Docker Pulls](https://img.shields.io/docker/pulls/fmotalleb/cord-locator) [![codecov](https://codecov.io/gh/FMotalleb/cord-locator/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/cord-locator)
 
-[![Publish Container to Docker](https://github.com/FMotalleb/mockery/actions/workflows/docker-reg.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/docker-reg.yml)
-[![Publish Container to Github](https://github.com/FMotalleb/mockery/actions/workflows/github-reg.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/github-reg.yml)
-[![Publish Container to Github at dev](https://github.com/FMotalleb/mockery/actions/workflows/github-reg-dev.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/github-reg-dev.yml)
-[![Tests](https://github.com/FMotalleb/mockery/actions/workflows/tests.yml/badge.svg)](https://github.com/FMotalleb/mockery/actions/workflows/tests.yml)
+[![Publish Container to Docker](https://github.com/FMotalleb/cord-locator/actions/workflows/docker-reg.yml/badge.svg)](https://github.com/FMotalleb/cord-locator/actions/workflows/docker-reg.yml)
+[![Publish Container to Github](https://github.com/FMotalleb/cord-locator/actions/workflows/github-reg.yml/badge.svg)](https://github.com/FMotalleb/cord-locator/actions/workflows/github-reg.yml)
+[![Publish Container to Github at dev](https://github.com/FMotalleb/cord-locator/actions/workflows/github-reg-dev.yml/badge.svg)](https://github.com/FMotalleb/cord-locator/actions/workflows/github-reg-dev.yml)
+[![Tests](https://github.com/FMotalleb/cord-locator/actions/workflows/tests.yml/badge.svg)](https://github.com/FMotalleb/cord-locator/actions/workflows/tests.yml)
 
 </div>
 
@@ -17,15 +17,15 @@
 
 ### Using Docker hub
 
-Located at `docker.io/fmotalleb/mockery:(tag)`
+Located at `docker.io/fmotalleb/cord-locator:(tag)`
 
 ### Using GitHub registry (since v2.0.7)
 
-Located at `ghcr.io/fmotalleb/mockery:(tag)`
+Located at `ghcr.io/fmotalleb/cord-locator:(tag)`
 
 ### Development version
 
-Located at `ghcr.io/fmotalleb/mockery-dev:(branch name: main,...)`
+Located at `ghcr.io/fmotalleb/cord-locator-dev:(branch name: main,...)`
 
 ## Development contracts
 
@@ -48,17 +48,16 @@ In this version, the following tasks have been completed:
 * [X] Modified provider parameters as needed.
 * [X] Added support for multiple DNS providers for each rule.
 * [X] Test the configuration package.
-
+* [X] Consider renaming the project to a more reasonable name.
 
 However, there are some remaining tasks for version 2.0.x:
 
 * [ ] Potentially review and adjust the configuration.
-* [ ] Consider renaming the project to a more reasonable name.
-
 
 ### Version 2.1.x (Planned)
 
 The upcoming version 2.1.x will introduce the following features:
+
 * [ ] Address and enhance log messages and levels.
 * [ ] Address and enhance test messages.
 * [ ] Populate the `README.md` file with relevant information.
