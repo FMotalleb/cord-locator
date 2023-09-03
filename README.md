@@ -48,22 +48,24 @@ In this version, the following tasks have been completed:
 * [X] Modified provider parameters as needed.
 * [X] Added support for multiple DNS providers for each rule.
 * [X] Test the configuration package.
-* [X] Address and enhance log messages and levels.
+
 
 However, there are some remaining tasks for version 2.0.x:
 
-* [ ] Address and enhance test messages.
-* [ ] Improve project (code) documentation.
-* [ ] Expand test coverage.
-* [ ] Conduct code refactoring.
 * [ ] Potentially review and adjust the configuration.
 * [ ] Consider renaming the project to a more reasonable name.
-* [ ] Populate the `README.md` file with relevant information.
+
 
 ### Version 2.1.x (Planned)
 
 The upcoming version 2.1.x will introduce the following features:
-
+* [ ] Address and enhance log messages and levels.
+* [ ] Address and enhance test messages.
+* [ ] Populate the `README.md` file with relevant information.
+* [ ] Improve project (code) documentation.
+* [ ] Expand test coverage.
+* [ ] Lua script support
+* [ ] Conduct code refactoring.
 * [ ] Implementation of a DOT (DNS over TLS) client. (As Resolver)
 * [ ] Development of a DOH (DNS over HTTPS) client. (As Resolver)
 * [ ] Introduction of rule grouping for improved organization.
