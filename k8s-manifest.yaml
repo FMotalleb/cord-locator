@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: dns-service
-          image: fmotalleb/mockery:latest
+          image: fmotalleb/cord-locator:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
