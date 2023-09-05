@@ -1,0 +1,33 @@
+entry_points:
+  - name: normal # (def(alpha, beta, gamma, delta))
+    port: 53 # (def(53))
+    type: raw # (def(raw) || tls || https)
+    # reserved names (https||tls)_params respectively
+
+# Mandatory uses fallback method to iterate over items
+# if cannot find any will result in error (question remains unresolved)
+default_providers: # (def(null))
+  - opendns
+
+providers:
+  cf: # naming providers is mandatory
+    # DNS_SERVER_DEFINITION
+    type: raw # (tls || https || lua) (if lua addresses should point to lua file)
+    addresses:
+      - 1.1.1.1:53
+      - 1.0.0.1:53
+
+rules:
+  - name: Google
+    matchers:
+      - name: simple regex detector
+        type: regex # (def(glob) || regex || exact || geo domain || end-regex)
+        matcher_params:
+          - matcher 1
+          - .*.google.com
+    resolvers:
+      - provider_name: cf
+
+      # uses the same format as DNS_SERVER_DEFINITION to create custom provider for one rule
+      - type: raw
+        address: 8.8.8.8:53

@@ -6,7 +6,11 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
+	"strings"
 	"syscall"
+
+	newconfig "github.com/FMotalleb/dns-reverse-proxy-docker/lib/new_config"
+	"gopkg.in/yaml.v3"
 
 	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config"
 	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/utils"
@@ -21,8 +25,23 @@ var (
 	// DNSConfig is the configuration data of the instance
 	DNSConfig config.Config
 )
+var data = `
+entry_points:
+  - name:
+    port: 53 # (def(53))
+    type: raw # (def(raw) || tls || https)
+`
 
 func main() {
+	testConfig := newconfig.Config{}
+	yaml.Unmarshal([]byte(data), &testConfig)
+	confs := make([]string, 0)
+	for _, item := range testConfig.EntryPoints {
+		confs = append(confs, item.String())
+	}
+
+	log.Info().Msg(strings.Join(confs, ","))
+	return
 	log.Info().Msg("Starting DNS Server")
 	address := DNSConfig.Global.Address
 	udpServer := &dns.Server{Addr: address, Net: "udp"}
