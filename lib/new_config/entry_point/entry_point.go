@@ -2,8 +2,9 @@ package entrypoint
 
 import (
 	"fmt"
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/validator"
 	"strings"
+
+	"github.com/FMotalleb/cord-locator/lib/validator"
 )
 
 type EntryPoint struct {

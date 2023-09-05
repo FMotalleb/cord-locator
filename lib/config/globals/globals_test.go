@@ -3,7 +3,7 @@ package globals_test
 import (
 	"testing"
 
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config/globals"
+	"github.com/FMotalleb/cord-locator/lib/config/globals"
 )
 
 func makeArray[T any](args ...T) []T {

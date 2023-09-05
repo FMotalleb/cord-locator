@@ -3,7 +3,7 @@ package provider_test
 import (
 	"testing"
 
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/provider"
+	"github.com/FMotalleb/cord-locator/lib/provider"
 )
 
 func TestValidatePass(t *testing.T) {

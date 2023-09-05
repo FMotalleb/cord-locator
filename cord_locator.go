@@ -9,11 +9,11 @@ import (
 	"strings"
 	"syscall"
 
-	newconfig "github.com/FMotalleb/dns-reverse-proxy-docker/lib/new_config"
+	newconfig "github.com/FMotalleb/cord-locator/lib/new_config"
 	"gopkg.in/yaml.v3"
 
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config"
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/utils"
+	"github.com/FMotalleb/cord-locator/lib/config"
+	"github.com/FMotalleb/cord-locator/lib/utils"
 	"github.com/fsnotify/fsnotify"
 	"github.com/miekg/dns"
 	"github.com/rs/zerolog"
