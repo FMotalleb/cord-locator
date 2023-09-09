@@ -17,11 +17,11 @@
 
 ### Using Docker hub
 
-Located at `docker.io/fmotalleb/cord-locator:(tag)`
+Located at `docker.io/fmotalleb/cord-locator:(version)`
 
 ### Using GitHub registry (since v2.0.7)
 
-Located at `ghcr.io/fmotalleb/cord-locator:(tag)`
+Located at `ghcr.io/fmotalleb/cord-locator:(version)`
 
 ### Development version
 
