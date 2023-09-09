@@ -3,6 +3,8 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"os"
 	"os/signal"
 	"strconv"
@@ -10,6 +12,8 @@ import (
 
 	"github.com/FMotalleb/cord-locator/lib/config"
 	"github.com/FMotalleb/cord-locator/lib/utils"
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/client"
 	"github.com/fsnotify/fsnotify"
 	"github.com/miekg/dns"
 	"github.com/rs/zerolog"
@@ -28,7 +32,43 @@ entry_points:
     type: raw # (def(raw) || tls || https)
 `
 
+func test() {
+	ctx := context.Background()
+	// DOCKER_HOST
+	// DOCKER_API_VERSION
+	// DOCKER_CERT_PATH
+	// DOCKER_TLS_VERIFY
+	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
+	if err != nil {
+		panic(err)
+	}
+	// ev := make(chan events.Message)
+
+	ev, _ := cli.Events(ctx, types.EventsOptions{})
+	for i := range ev {
+		print(i.Action)
+		print("-")
+		print(i.Scope)
+		print("-")
+		print(i.Type)
+		print("-")
+		println(i.Actor.ID)
+	}
+	// defer cli.Close()
+
+	containers, err := cli.ContainerList(ctx, types.ContainerListOptions{})
+	if err != nil {
+		print(err.Error())
+	}
+
+	for _, image := range containers {
+		fmt.Println(image.Labels["cord-locator.address"])
+	}
+
+}
 func main() {
+	test()
+	return
 	log.Info().Msg("Starting DNS Server")
 	address := DNSConfig.Global.Address
 	udpServer := &dns.Server{Addr: address, Net: "udp"}
