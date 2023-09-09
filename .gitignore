@@ -16,6 +16,6 @@ _test
 *.exe
 *.test
 *.prof
-dns-reverse-proxy-docker
+cord-locator
 *.log
 *.out

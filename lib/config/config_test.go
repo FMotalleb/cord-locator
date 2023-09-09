@@ -3,10 +3,10 @@ package config_test
 import (
 	"testing"
 
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config"
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config/globals"
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/provider"
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/rule"
+	"github.com/FMotalleb/cord-locator/lib/config"
+	"github.com/FMotalleb/cord-locator/lib/config/globals"
+	"github.com/FMotalleb/cord-locator/lib/provider"
+	"github.com/FMotalleb/cord-locator/lib/rule"
 )
 
 func makeArray[T any](args ...T) []T {

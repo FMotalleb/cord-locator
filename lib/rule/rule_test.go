@@ -3,7 +3,7 @@ package rule_test
 import (
 	"testing"
 
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/rule"
+	"github.com/FMotalleb/cord-locator/lib/rule"
 )
 
 func TestRegexMatcherPass(t *testing.T) {

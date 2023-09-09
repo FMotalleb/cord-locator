@@ -8,9 +8,9 @@ import (
 	"net"
 	"strings"
 
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/rule"
+	"github.com/FMotalleb/cord-locator/lib/rule"
 
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config"
+	"github.com/FMotalleb/cord-locator/lib/config"
 	"github.com/miekg/dns"
 	"github.com/rs/zerolog/log"
 )

@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"syscall"
 
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/config"
-	"github.com/FMotalleb/dns-reverse-proxy-docker/lib/utils"
+	"github.com/FMotalleb/cord-locator/lib/config"
+	"github.com/FMotalleb/cord-locator/lib/utils"
 	"github.com/fsnotify/fsnotify"
 	"github.com/miekg/dns"
 	"github.com/rs/zerolog"

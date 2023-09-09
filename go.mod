@@ -1,4 +1,4 @@
-module github.com/FMotalleb/dns-reverse-proxy-docker
+module github.com/FMotalleb/cord-locator
 
 go 1.20
 
