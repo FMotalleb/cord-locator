@@ -36,7 +36,7 @@ Located at `ghcr.io/fmotalleb/cord-locator-dev:(branch name: main,...)`
 
 ## Progress
 
-### Version 2.0.x
+### Version 2.0.x [Phase 1] (Done)
 
 In this version, the following tasks have been completed:
 
@@ -50,14 +50,16 @@ In this version, the following tasks have been completed:
 * [X] Test the configuration package.
 * [X] Consider renaming the project to a more reasonable name.
 
-However, there are some remaining tasks for version 2.0.x:
+ * At this stage, the project involves a rule-based DNS server/DNS reverse proxy capable of manipulating DNS requests.
+ * Currently, the server is somewhat static, but in the upcoming phases, this approach will be modified and enhanced.
+ * Up to this point, the program has relied on raw DNS resolvers or raw responses. However, the plan is to expand its capabilities by integrating new data sources such as CSV files, SQL databases, Docker integration, Lua integration, and support for DOH (DNS over HTTPS) and DOT (DNS over TLS) servers.
 
-* [ ] Potentially review and adjust the configuration.
-
-### Version 2.1.x (Planned)
+### Version 2.1.x (In Progress)
 
 The upcoming version 2.1.x will introduce the following features:
 
+* [ ] Review and adjust the configuration.
+* [ ] Docker Integration.
 * [ ] Address and enhance log messages and levels.
 * [ ] Address and enhance test messages.
 * [ ] Populate the `README.md` file with relevant information.
