@@ -81,33 +81,5 @@ Please note that these tasks represent the current project status and planned de
 
 ## Development
 
-```mermaid
-flowchart TB
-    subgraph "Master Channel"
-        A((Main Branch)) -->|Start| B[Release Tag]
-    end
-    subgraph "CD"
-        B -->|Build Image| M[Docker Image Build]
-    end
-    subgraph "Feature Development"
-        A --> C[Create Branch Per Feature]
-        C -->|Create| F((Feature Development))
+![DevFlow](https://github.com/FMotalleb/cord-locator/assets/30149519/33bfc423-cb14-48b6-ac95-120dfcf946ac)
 
-        F -->|Develop| G[Create Pull Request]
-        G -->|Pass?| H((Actions Pass?))
-        H -->|No| F
-        H -->|Yes| A
-    end
-
-    %% Descriptions
-    style B fill:#44bd32,stroke:#333,stroke-width:2px
-    style M fill:#192a56,stroke:#333,stroke-width:2px
-    style C fill:#c23616,stroke:#333,stroke-width:2px
-    style A stroke:#333,stroke-width:2px
-    style F stroke:#333,stroke-width:2px
-    style G stroke:#333,stroke-width:2px
-    style H stroke:#333,stroke-width:2px
-    style B stroke:#333,stroke-width:2px
-    style M stroke:#333,stroke-width:2px
-    style C stroke:#333,stroke-width:2px
-```
