@@ -50,9 +50,9 @@ In this version, the following tasks have been completed:
 * [X] Test the configuration package.
 * [X] Consider renaming the project to a more reasonable name.
 
- * At this stage, the project involves a rule-based DNS server/DNS reverse proxy capable of manipulating DNS requests.
- * Currently, the server is somewhat static, but in the upcoming phases, this approach will be modified and enhanced.
- * Up to this point, the program has relied on raw DNS resolvers or raw responses. However, the plan is to expand its capabilities by integrating new data sources such as CSV files, SQL databases, Docker integration, Lua integration, and support for DOH (DNS over HTTPS) and DOT (DNS over TLS) servers.
+* At this stage, the project involves a rule-based DNS server/DNS reverse proxy capable of manipulating DNS requests.
+* Currently, the server is somewhat static, but in the upcoming phases, this approach will be modified and enhanced.
+* Up to this point, the program has relied on raw DNS resolvers or raw responses. However, the plan is to expand its capabilities by integrating new data sources such as CSV files, SQL databases, Docker integration, Lua integration, and support for DOH (DNS over HTTPS) and DOT (DNS over TLS) servers.
 
 ### Version 2.1.x (In Progress)
 
