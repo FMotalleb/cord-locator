@@ -81,16 +81,23 @@ func handleRawResponse(requestHostname string, r *rule.Rule, req *dns.Msg, w dns
 		log.Error().Msgf("%s not supported in the config, continue using default handler", dns.TypeToString[req.Question[0].Qtype])
 		return false
 	}
-	msg, err := dns.NewRR(formatString(*raw, mapper))
-	if err != nil {
-		log.Debug().Msgf("cannot parse raw response: %v", err)
-		return false
+	result := make([]dns.RR, 0)
+	rawList := strings.Split(*raw, "\n")
+	for _, value := range rawList {
+		msg, err := dns.NewRR(formatString(value, mapper))
+		if err != nil {
+			log.Debug().Msgf("cannot parse raw response: %v", err)
+			return false
+		}
+
+		if msg != nil {
+
+			result = append(result, msg)
+
+		}
 	}
-	if msg != nil {
-		result := make([]dns.RR, 0)
-		result = append(result, msg)
+	if len(result) > 0 {
 		req.Answer = result
-		log.Info().Msgf("cannot parse raw response: %v", req)
 		_ = w.WriteMsg(req)
 		return true
 	}

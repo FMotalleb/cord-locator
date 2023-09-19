@@ -134,3 +134,12 @@ rules:
       - (.*\.)?bard\.google\.com
     resolvers: "shecan"
     resolverParams: ea.com.
+
+  - name: Test
+    matcher: regex
+    matcherParams:
+      - (.*\.)?test.domain.com
+    raw:
+      A: |
+        test.domain.com 60 IN CNAME	google.403.
+        google.403.		60	IN	A	127.0.0.1
