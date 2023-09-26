@@ -4,6 +4,8 @@
 
 <div align="center">
 
+![eye](https://images.weserv.nl/?url=https://github.com/FMotalleb/cord-locator/assets/30149519/903fedd4-bfe2-4f48-8484-40faf0c976bd&h=500&w=500&fit=cover&mask=circle&maxage=7d)
+
 ![Docker Pulls<Depricated>](https://img.shields.io/docker/pulls/fmotalleb/mockery) ![Docker Pulls](https://img.shields.io/docker/pulls/fmotalleb/cord-locator) [![codecov](https://codecov.io/gh/FMotalleb/cord-locator/branch/main/graph/badge.svg?token=MPZZYK0LUJ)](https://codecov.io/gh/FMotalleb/cord-locator)
 
 [![Publish Container to Docker](https://github.com/FMotalleb/cord-locator/actions/workflows/docker-reg.yml/badge.svg)](https://github.com/FMotalleb/cord-locator/actions/workflows/docker-reg.yml)
