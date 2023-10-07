@@ -3,6 +3,7 @@
 package main
 
 import (
+	"context"
 	"os"
 	"os/signal"
 	"strconv"
@@ -32,7 +33,7 @@ entry_points:
      type: raw # (def(raw) || tls || https)
 
 providers:
-  -  name:  # naming providers is mandatory
+  -  name: cf # naming providers is mandatory
      # DNS_SERVER_DEFINITION
      type: raw # (tls || https || lua) (if lua addresses should point to lua file)
      addresses:
@@ -41,14 +42,28 @@ providers:
 `
 
 func main() {
-	testConfig := newconfig.Config{}
+	ctx := context.Background()
+	go func() {
+		select {
+		case <-ctx.Done():
+			println("done")
+			break
+		}
+		// for _ = range ctx.Done() {
+		// 	println("done")
+		// }
+	}()
+
+	ctx, _ = context.WithCancelCause(ctx)
+	// cancel(errors.New("WTF"))
+	testConfig := newconfig.ConfigData{}
 	err := yaml.Unmarshal([]byte(data), &testConfig)
 	if err != nil {
 		println(err.Error())
 	}
 	confs := make([]string, 0)
 	for _, item := range testConfig.Providers {
-		println(item.Validate().Error())
+		// println(item.Validate().Error())
 		confs = append(confs, item.String())
 	}
 

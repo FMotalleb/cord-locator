@@ -8,29 +8,33 @@ import (
 	"github.com/miekg/dns"
 )
 
+// Provider is (in normal cases) an external recourse the is able to resolve dns questions
 type Provider interface {
 	GetName() string
-	GetType() ProviderType
+	GetType() Type
 	Resolve([]dns.Question) (answer []dns.RR, err error)
 	String() string
-	validator.Validatable
 }
 
-type ProviderData struct {
+// Data of provider configuration in yaml file
+type Data struct {
 	Name      *string   `yaml:"name,omitempty"`
 	Type      *string   `yaml:"type,omitempty"`
 	Addresses *[]string `yaml:"addresses,omitempty"`
 	Provider
+	validator.Validatable
 }
 
-func (receiver ProviderData) GetName() string {
+// GetName of this dns provider (used in rules to point to this provider)
+func (receiver Data) GetName() string {
 	if receiver.Name == nil {
 		panic("provider name is missing")
 	}
 	return *receiver.Name
 }
 
-func (receiver ProviderData) GetType() ProviderType {
+// GetType of this dns provider
+func (receiver Data) GetType() Type {
 	if receiver.Type == nil {
 		return Raw
 	}
@@ -38,12 +42,13 @@ func (receiver ProviderData) GetType() ProviderType {
 	return current
 }
 
-func (receiver ProviderData) Resolve([]dns.Question) (answer []dns.RR, err error) {
+// Resolve a dns request and returns its answer or error
+func (receiver Data) Resolve([]dns.Question) (answer []dns.RR, err error) {
 	// TODO: Implement Resolve method
 	panic("UnImplemented")
 }
 
-func (receiver ProviderData) String() string {
+func (receiver Data) String() string {
 	buffer := strings.Builder{}
 	buffer.WriteString("Provider(")
 	buffer.WriteString(fmt.Sprintf("Name: %s, ", receiver.GetName()))
@@ -51,12 +56,13 @@ func (receiver ProviderData) String() string {
 		addr := *receiver.Addresses
 		buffer.WriteString(fmt.Sprintf("Addresses: %s, ", strings.Join(addr, ", ")))
 	}
-
 	buffer.WriteString(fmt.Sprintf("Type: %v", receiver.GetType().String()))
 	buffer.WriteString(")")
 	return buffer.String()
 }
-func (receiver ProviderData) Validate() error {
+
+// Validate this instance of provider data to make sure it will work correctly
+func (receiver Data) Validate() error {
 	if receiver.Name == nil {
 		return validator.NewValidationError(
 			"a name for every provider -> providers.*.name",

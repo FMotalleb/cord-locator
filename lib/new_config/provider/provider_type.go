@@ -1,19 +1,23 @@
 package provider
 
-type ProviderType int
+// Type can be of type Raw,Lua,Tls,HTTPS...
+type Type int
 
 const (
-	Raw ProviderType = iota
+	// Raw dns type which is ipv4:53 udp dns server
+	Raw Type = iota
 	// LUA
 	// TLS
 	// HTTPS
 	// MYSQL
 	// SQLLITE
 	// CSV
+
+	// Undefined dns type is an unacceptable dns type and provider of this type will be unused
 	Undefined = -1
 )
 
-func parseType(typeName *string) ProviderType {
+func parseType(typeName *string) Type {
 	if typeName == nil {
 		return Undefined
 	}
@@ -28,7 +32,7 @@ func parseType(typeName *string) ProviderType {
 		return Undefined
 	}
 }
-func (receiver ProviderType) String() string {
+func (receiver Type) String() string {
 	switch receiver {
 	case 0:
 		return "Raw"
