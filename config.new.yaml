@@ -1,10 +1,10 @@
 entry_points:
-  - name: normal # (def(alpha, beta, gamma, delta))
+  - name: normal # (Optional)
     port: 53 # (def(53))
-    type: raw # (def(raw) || tls || https)
-    # reserved names (https||tls)_params respectively
+    type: raw # (def(raw) | tls | https)
+    # reserved keys are (https|tls)_params respectively
 
-# Mandatory uses fallback method to iterate over items
+# (Mandatory) uses fallback method to iterate over items
 # if cannot find any will result in error (question remains unresolved)
 default_providers: # (def(null))
   - opendns
@@ -21,7 +21,7 @@ rules:
   - name: Google
     matchers:
       - name: simple regex detector
-        type: regex # (def(glob) || regex || exact || geo domain || end-regex)
+        type: regex # (def(glob) || regex || exact) (this will enable us to use geosite from v2ray)
         matcher_params:
           - matcher 1
           - .*.google.com
@@ -30,4 +30,5 @@ rules:
 
       # uses the same format as DNS_SERVER_DEFINITION to create custom provider for one rule
       - type: raw
-        address: 8.8.8.8:53
+        addresses:
+          - 8.8.8.8:53
