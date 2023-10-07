@@ -10,7 +10,7 @@ default_providers: # (def(null))
   - opendns
 
 providers:
-  cf: # naming providers is mandatory
+  - name: cf # naming providers is mandatory
     # DNS_SERVER_DEFINITION
     type: raw # (tls || https || lua) (if lua addresses should point to lua file)
     addresses:

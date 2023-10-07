@@ -27,21 +27,34 @@ var (
 )
 var data = `
 entry_points:
-  - name:
-    port: 53 # (def(53))
-    type: raw # (def(raw) || tls || https)
+  -  name:
+     port:  # (def(53))
+     type: raw # (def(raw) || tls || https)
+
+providers:
+  -  name:  # naming providers is mandatory
+     # DNS_SERVER_DEFINITION
+     type: raw # (tls || https || lua) (if lua addresses should point to lua file)
+     addresses:
+       - 1.1.1.1:53
+       - 1.0.0.1:53
 `
 
 func main() {
 	testConfig := newconfig.Config{}
-	yaml.Unmarshal([]byte(data), &testConfig)
+	err := yaml.Unmarshal([]byte(data), &testConfig)
+	if err != nil {
+		println(err.Error())
+	}
 	confs := make([]string, 0)
-	for _, item := range testConfig.EntryPoints {
+	for _, item := range testConfig.Providers {
+		println(item.Validate().Error())
 		confs = append(confs, item.String())
 	}
 
 	log.Info().Msg(strings.Join(confs, ","))
 	return
+
 	log.Info().Msg("Starting DNS Server")
 	address := DNSConfig.Global.Address
 	udpServer := &dns.Server{Addr: address, Net: "udp"}
@@ -95,6 +108,7 @@ func init() {
 		}
 	}
 
+	return
 	configPath, hasConfigFile := os.LookupEnv("CONFIG_FILE")
 	if !hasConfigFile {
 		log.Warn().Msg("`CONFIG_FILE` was missing from environment table default value is `./config.yaml`")

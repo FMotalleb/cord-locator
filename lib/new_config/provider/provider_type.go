@@ -1,15 +1,19 @@
-package entrypoint
+package provider
 
-type EntryType int
+type ProviderType int
 
 const (
-	Raw EntryType = iota
+	Raw ProviderType = iota
+	// LUA
 	// TLS
 	// HTTPS
+	// MYSQL
+	// SQLLITE
+	// CSV
 	Undefined = -1
 )
 
-func parseType(typeName *string) EntryType {
+func parseType(typeName *string) ProviderType {
 	if typeName == nil {
 		return Undefined
 	}
@@ -24,7 +28,7 @@ func parseType(typeName *string) EntryType {
 		return Undefined
 	}
 }
-func (receiver EntryType) String() string {
+func (receiver ProviderType) String() string {
 	switch receiver {
 	case 0:
 		return "Raw"

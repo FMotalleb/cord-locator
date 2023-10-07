@@ -7,43 +7,49 @@ import (
 	"github.com/FMotalleb/cord-locator/lib/validator"
 )
 
-type EntryPoint struct {
+type EntryPoint interface {
+	GetName() string
+	GetPort() int
+	GetType() EntryType
+	String() string
+	validator.Validatable
+}
+type EntryPointData struct {
 	Name *string `yaml:"name,omitempty"`
 	Port *int    `yaml:"port,omitempty"`
 	Type *string `yaml:"type,omitempty"`
+	EntryPoint
 }
 
-func (receiver EntryPoint) GetName() string {
+func (receiver EntryPointData) GetName() string {
 	if receiver.Name == nil {
 		return ""
 	}
 	return *receiver.Name
 }
-func (receiver EntryPoint) GetPort() int {
+func (receiver EntryPointData) GetPort() int {
 	if receiver.Port == nil {
 		return 53
 	}
 	return *receiver.Port
 }
 
-func (receiver EntryPoint) getTypeRaw() string {
+func (receiver EntryPointData) getTypeRaw() string {
 	if receiver.Type == nil {
-		return "<unset>"
+		return "Raw"
 	}
 	return *receiver.Type
 }
 
-func (receiver EntryPoint) GetType() EntryType {
-	actual := parseType(receiver.Type)
-	switch actual {
-	case Undefined:
+func (receiver EntryPointData) GetType() EntryType {
+	if receiver.Type == nil {
 		return Raw
-	default:
-		return actual
 	}
+	current := parseType(receiver.Type)
+	return current
 }
 
-func (receiver EntryPoint) String() string {
+func (receiver EntryPointData) String() string {
 	buffer := strings.Builder{}
 	buffer.WriteString("EntryPoint(")
 	if len(receiver.GetName()) > 0 {
@@ -52,20 +58,14 @@ func (receiver EntryPoint) String() string {
 		buffer.WriteString("Name<Empty>: '', ")
 	}
 	buffer.WriteString(fmt.Sprintf("Port: %d, ", receiver.GetPort()))
-	buffer.WriteString(fmt.Sprintf("Type: %v", parseType(receiver.Type).String()))
+	buffer.WriteString(fmt.Sprintf("Type: %v", receiver.GetType().String()))
 	buffer.WriteString(")")
 	return buffer.String()
 }
-func (receiver EntryPoint) Validate() error {
-	// if len(receiver.GetName()) == 0 {
-	// 	return validator.NewValidationError(
-	// 		"to receive entry_points.name",
-	// 		"no name or empty name received",
-	// 		"missing name for an entry point in config file")
-	// }
+func (receiver EntryPointData) Validate() error {
 	if receiver.GetPort() < 1 || receiver.GetPort() > 65535 {
 		return validator.NewValidationError(
-			"to receive a valid entry_points.port value (1-65535)",
+			"a valid entry_points.*.port value (1-65535)",
 			fmt.Sprintf("%d", receiver.GetPort()),
 			fmt.Sprintf("port value in entrypoint: %s", receiver.GetName()))
 	}
@@ -73,8 +73,8 @@ func (receiver EntryPoint) Validate() error {
 	switch parseType(receiver.Type) {
 	case Undefined:
 		return validator.NewValidationError(
-			"to receive one of (raw | tls | https) in entry_points.type",
-			fmt.Sprintf("given type does not match expectee %s", receiver.getTypeRaw()),
+			"one of (raw | tls | https) in entry_points.*.type",
+			fmt.Sprintf("given type (%s) does not match expected values", receiver.getTypeRaw()),
 			fmt.Sprintf("type value in entrypoint: %s", receiver.GetName()))
 	default:
 		break
