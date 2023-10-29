@@ -1,11 +1,12 @@
 package provider
 
-// Type can be of type Raw,Lua,Tls,HTTPS...
+// Type indicates the connection method to the provider
 type Type int
 
 const (
-	// Raw dns type which is ipv4:53 udp dns server
-	Raw Type = iota
+	// UDP dns type normally listens on port 53 and relies on UDP packets,
+	// this is default dns type supported by almost any device on the planet
+	UDP Type = iota
 	// LUA
 	// TLS
 	// HTTPS
@@ -22,8 +23,8 @@ func parseType(typeName *string) Type {
 		return Undefined
 	}
 	switch *typeName {
-	case "raw":
-		return Raw
+	case "udp":
+		return UDP
 	// case "tls":
 	// 	return TLS
 	// case "https":
@@ -34,8 +35,8 @@ func parseType(typeName *string) Type {
 }
 func (receiver Type) String() string {
 	switch receiver {
-	case 0:
-		return "Raw"
+	case UDP:
+		return "Udp"
 	// case 1:
 	// 	return "TLS"
 	// case 2:

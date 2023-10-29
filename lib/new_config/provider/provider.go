@@ -36,7 +36,7 @@ func (receiver Data) GetName() string {
 // GetType of this dns provider
 func (receiver Data) GetType() Type {
 	if receiver.Type == nil {
-		return Raw
+		return UDP
 	}
 	current := parseType(receiver.Type)
 	return current
@@ -72,7 +72,7 @@ func (receiver Data) Validate() error {
 	switch receiver.GetType() {
 	case Undefined:
 		return validator.NewValidationError(
-			"one of (raw,lua,https,tls...) in providers.*.type",
+			"one of (udp,tcp,lua,https,tls...) in providers.*.type",
 			fmt.Sprintf("`%s`", *receiver.Type),
 			fmt.Sprintf("the type in provider: `%s`", receiver.GetName()))
 	default:

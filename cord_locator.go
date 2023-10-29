@@ -10,8 +10,8 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/FMotalleb/cord-locator/lib/data"
 	newconfig "github.com/FMotalleb/cord-locator/lib/new_config"
-	"gopkg.in/yaml.v3"
 
 	"github.com/FMotalleb/cord-locator/lib/config"
 	"github.com/FMotalleb/cord-locator/lib/utils"
@@ -26,22 +26,28 @@ var (
 	// DNSConfig is the configuration data of the instance
 	DNSConfig config.Config
 )
-var data = `
-entry_points:
-  -  name:
-     port:  # (def(53))
-     type: raw # (def(raw) || tls || https)
 
-providers:
-  -  name: cf # naming providers is mandatory
-     # DNS_SERVER_DEFINITION
-     type: raw # (tls || https || lua) (if lua addresses should point to lua file)
-     addresses:
-       - 1.1.1.1:53
-       - 1.0.0.1:53
-`
+// var data = `
+// entry_points:
+//   -  name:
+//      port:  # (def(53))
+//      type: udp
+
+// providers:
+//   -  name: cf # naming providers is mandatory
+//      # DNS_SERVER_DEFINITION
+//      type: udp
+//      addresses:
+//        - 1.1.1.1:53
+//        - 1.0.0.1:53
+// `
 
 func main() {
+	// dd := data.NewAnswer("google.com.", "A", "IN", "216.239.38.120", 80)
+	rr, _ := dns.NewRR("stackexchange.com.	1800	IN	SOA		damian.ns.cloudflare.com. 			dns.cloudflare.com. 2322332295 10000 2400 604800 1800")
+	// dns.
+	data.NewAnswerFromRR(rr)
+	return
 	ctx := context.Background()
 	go func() {
 		select {
@@ -56,13 +62,14 @@ func main() {
 
 	ctx, _ = context.WithCancelCause(ctx)
 	// cancel(errors.New("WTF"))
-	testConfig := newconfig.ConfigData{}
-	err := yaml.Unmarshal([]byte(data), &testConfig)
-	if err != nil {
-		println(err.Error())
-	}
+	testConfig := newconfig.Data{}
+	// err := yaml.Unmarshal([]byte(data), &testConfig)
+	// if err != nil {
+	// println(err.Error())
+	// }
 	confs := make([]string, 0)
-	for _, item := range testConfig.Providers {
+	config := testConfig.BuildConfig()
+	for _, item := range config.Providers {
 		// println(item.Validate().Error())
 		confs = append(confs, item.String())
 	}

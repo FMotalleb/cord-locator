@@ -7,49 +7,55 @@ import (
 	"github.com/FMotalleb/cord-locator/lib/validator"
 )
 
+type DnsQueryCallback func()
+
+// EntryPoint of dns server
+// indicates where to listen for dns queries
 type EntryPoint interface {
 	GetName() string
 	GetPort() int
-	GetType() EntryType
+	GetType() Type
 	String() string
 	validator.Validatable
 }
-type EntryPointData struct {
+
+// Data of entry point contains its (optional) name, port and type
+type Data struct {
 	Name *string `yaml:"name,omitempty"`
 	Port *int    `yaml:"port,omitempty"`
 	Type *string `yaml:"type,omitempty"`
 	EntryPoint
 }
 
-func (receiver EntryPointData) GetName() string {
+func (receiver Data) GetName() string {
 	if receiver.Name == nil {
 		return ""
 	}
 	return *receiver.Name
 }
-func (receiver EntryPointData) GetPort() int {
+func (receiver Data) GetPort() int {
 	if receiver.Port == nil {
 		return 53
 	}
 	return *receiver.Port
 }
 
-func (receiver EntryPointData) getTypeRaw() string {
+func (receiver Data) getTypeRaw() string {
 	if receiver.Type == nil {
-		return "Raw"
+		return "UDP"
 	}
 	return *receiver.Type
 }
 
-func (receiver EntryPointData) GetType() EntryType {
+func (receiver Data) GetType() Type {
 	if receiver.Type == nil {
-		return Raw
+		return UDP
 	}
 	current := parseType(receiver.Type)
 	return current
 }
 
-func (receiver EntryPointData) String() string {
+func (receiver Data) String() string {
 	buffer := strings.Builder{}
 	buffer.WriteString("EntryPoint(")
 	if len(receiver.GetName()) > 0 {
@@ -62,7 +68,7 @@ func (receiver EntryPointData) String() string {
 	buffer.WriteString(")")
 	return buffer.String()
 }
-func (receiver EntryPointData) Validate() error {
+func (receiver Data) Validate() error {
 	if receiver.GetPort() < 1 || receiver.GetPort() > 65535 {
 		return validator.NewValidationError(
 			"a valid entry_points.*.port value (1-65535)",
@@ -73,7 +79,7 @@ func (receiver EntryPointData) Validate() error {
 	switch parseType(receiver.Type) {
 	case Undefined:
 		return validator.NewValidationError(
-			"one of (raw | tls | https) in entry_points.*.type",
+			"one of (udp | tcp | tls | https) in entry_points.*.type",
 			fmt.Sprintf("given type (%s) does not match expected values", receiver.getTypeRaw()),
 			fmt.Sprintf("type value in entrypoint: %s", receiver.GetName()))
 	default:

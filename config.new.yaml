@@ -1,7 +1,7 @@
 entry_points:
   - name: normal # (Optional)
     port: 53 # (def(53))
-    type: raw # (def(raw) | tls | https)
+    type: udp # (def(udp) | tcp | tls | https)
     # reserved keys are (https|tls)_params respectively
 
 # (Mandatory) uses fallback method to iterate over items
@@ -12,7 +12,7 @@ default_providers: # (def(null))
 providers:
   - name: cf # naming providers is mandatory
     # DNS_SERVER_DEFINITION
-    type: raw # (tls || https || lua) (if lua addresses should point to lua file)
+    type: udp # (tls || https || lua) (if lua addresses should point to lua file)
     addresses:
       - 1.1.1.1:53
       - 1.0.0.1:53
